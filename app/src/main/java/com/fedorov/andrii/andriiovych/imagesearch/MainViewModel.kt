@@ -14,6 +14,24 @@ class MainViewModel(var imageRepository: ImageRepository =App.container.imageRep
 
     private var listImage = listOf<Image>()
 
+    private var count = 0
+
+    fun nextImage(){
+        if(count == listImage.size-1) return
+        else {
+            count++
+            imageState.value = listImage[count]
+        }
+    }
+
+    fun lastImage(){
+        if(count == 0) return
+        else {
+            count--
+            imageState.value = listImage[count]
+        }
+    }
+
 
     fun searchImage(name:String) = viewModelScope.launch(Dispatchers.IO){
        listImage =  imageRepository.getSearchImage(name)

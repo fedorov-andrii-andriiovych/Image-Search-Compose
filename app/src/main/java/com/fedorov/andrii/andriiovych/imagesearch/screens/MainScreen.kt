@@ -50,7 +50,6 @@ fun MainScreen(modifier: Modifier,mainViewModel: MainViewModel){
                             .crossfade(true)
                             .build(),
                         error = painterResource(id = R.drawable.icon_error),
-                        placeholder = painterResource(id = R.drawable.icon_search),
                         contentDescription = "image",
                         contentScale = ContentScale.Crop
                     )
@@ -59,13 +58,13 @@ fun MainScreen(modifier: Modifier,mainViewModel: MainViewModel){
                     IconButton(modifier = modifier
                         .weight(0.5f)
                         .background(Color.Black)
-                        .border(1.dp, Color.White),onClick = { /*TODO*/ }) {
+                        .border(1.dp, Color.White),onClick = { mainViewModel.lastImage() }) {
                         Icon(painter = painterResource(id = R.drawable.icon_left), contentDescription = "", tint = Color.White)
                     }
                     IconButton(modifier = modifier
                         .weight(0.5f)
                         .background(Color.Black)
-                        .border(1.dp, Color.White),onClick = { /*TODO*/ }) {
+                        .border(1.dp, Color.White),onClick = { mainViewModel.nextImage() }) {
                         Icon(painter = painterResource(id = R.drawable.icon_right), contentDescription = "", tint = Color.White)
                     }
                 }
