@@ -3,11 +3,11 @@ package com.fedorov.andrii.andriiovych.imagesearch.data
 import com.fedorov.andrii.andriiovych.imagesearch.network.ImageService
 
 interface ImageRepository {
-    fun getSearchImage(name:String):List<Image>
+    suspend fun getSearchImage(name:String):List<Image>
 }
 
-class NetworkImageRepository(private var imageService:ImageService):ImageRepository{
-    override fun getSearchImage(name: String): List<Image> {
-        TODO("Not yet implemented")
+class NetworkImageRepository(var imageService:ImageService):ImageRepository{
+    override suspend fun getSearchImage(name: String): List<Image> {
+        return imageService.imageSearch(name = name).hits.map { Image(url = it.largeImageURL) }
     }
 }

@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -21,18 +21,21 @@ import com.fedorov.andrii.andriiovych.imagesearch.R
 
 @Composable
 fun MainScreen(modifier: Modifier,mainViewModel: MainViewModel){
+    var searchState by remember {
+        mutableStateOf("")
+    }
     Scaffold() {
         Box(modifier = modifier.padding(it)) {
             Column(verticalArrangement = Arrangement.SpaceBetween) {
                 Box(modifier = modifier
                     .fillMaxWidth()
-                    .background(Color.Green)) {
+                    .background(Color.Black)) {
                     OutlinedTextField(
                         modifier = modifier
                             .fillMaxWidth()
                             .padding(8.dp),
-                        value = "state.value",
-                        onValueChange = { }, singleLine = true, leadingIcon = { IconButton(onClick = { /*TODO*/ }) {
+                        value = searchState,
+                        onValueChange = { searchState = it }, singleLine = true, leadingIcon = { IconButton(onClick = { mainViewModel.searchImage(searchState) }) {
                             Icon(painter = painterResource(id = R.drawable.icon_search), contentDescription = "")
                         }
                         }, shape = RoundedCornerShape(50), colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White),
@@ -43,7 +46,7 @@ fun MainScreen(modifier: Modifier,mainViewModel: MainViewModel){
                     AsyncImage(
                         modifier=modifier.fillMaxWidth(),
                         model = ImageRequest.Builder(context = LocalContext.current)
-                            .data("https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png")
+                            .data(mainViewModel.imageState.value.url)
                             .crossfade(true)
                             .build(),
                         error = painterResource(id = R.drawable.icon_error),
@@ -53,11 +56,17 @@ fun MainScreen(modifier: Modifier,mainViewModel: MainViewModel){
                     )
                 }
                 Row(modifier = modifier.fillMaxWidth()) {
-                    IconButton(modifier = modifier.weight(0.5f).background(Color.Green).border(1.dp, Color.Black),onClick = { /*TODO*/ }) {
-                        Icon(painter = painterResource(id = R.drawable.icon_left), contentDescription = "")
+                    IconButton(modifier = modifier
+                        .weight(0.5f)
+                        .background(Color.Black)
+                        .border(1.dp, Color.White),onClick = { /*TODO*/ }) {
+                        Icon(painter = painterResource(id = R.drawable.icon_left), contentDescription = "", tint = Color.White)
                     }
-                    IconButton(modifier = modifier.weight(0.5f).background(Color.Green).border(1.dp, Color.Black),onClick = { /*TODO*/ }) {
-                        Icon(painter = painterResource(id = R.drawable.icon_right), contentDescription = "")
+                    IconButton(modifier = modifier
+                        .weight(0.5f)
+                        .background(Color.Black)
+                        .border(1.dp, Color.White),onClick = { /*TODO*/ }) {
+                        Icon(painter = painterResource(id = R.drawable.icon_right), contentDescription = "", tint = Color.White)
                     }
                 }
             }
