@@ -18,7 +18,7 @@ class MainViewModel(var imageRepository: ImageRepository =App.container.imageRep
     var allSizeState = mutableStateOf(0)
 
     fun nextImage(){
-        if(countState.value == listImage.size-1) return
+        if(countState.value == listImage.size-1 || listImage.isEmpty()) return
         else {
             countState.value++
             imageState.value = listImage[countState.value]
@@ -26,7 +26,7 @@ class MainViewModel(var imageRepository: ImageRepository =App.container.imageRep
     }
 
     fun lastImage(){
-        if(countState.value == 0) return
+        if(countState.value == 0 || listImage.isEmpty()) return
         else {
             countState.value--
             imageState.value = listImage[countState.value]
@@ -39,6 +39,7 @@ class MainViewModel(var imageRepository: ImageRepository =App.container.imageRep
         if (listImage.isNotEmpty()) {
             imageState.value = listImage.first()
             allSizeState.value = listImage.size
+            countState.value = 0
         }
     }
 

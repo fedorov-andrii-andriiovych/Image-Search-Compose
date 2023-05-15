@@ -53,26 +53,26 @@ fun MainScreen(modifier: Modifier,mainViewModel: MainViewModel){
                         controler?.hide()}
                     )
                 }
-                Box(modifier = modifier.weight(1f), contentAlignment = Alignment.TopCenter) {
+                Box(modifier = modifier.weight(1f).background(Color.Black), contentAlignment = Alignment.TopCenter) {
                     Box() {
                         AsyncImage(
-                            modifier=modifier.fillMaxWidth(),
+                            modifier=modifier.fillMaxWidth().fillMaxHeight(),
                             model = ImageRequest.Builder(context = LocalContext.current)
                                 .data(mainViewModel.imageState.value.url)
                                 .crossfade(true)
                                 .build(),
                             error = painterResource(id = R.drawable.icon_error),
-                            placeholder = painterResource(id = R.drawable.icon_error),
+                            placeholder = painterResource(id = R.drawable.icon_search),
                             contentDescription = "image",
-                            contentScale = ContentScale.Crop
+                            contentScale = ContentScale.None
                         )
                     }
                     Box(modifier = modifier.clip(shape = RoundedCornerShape(bottomStart = 50.dp, bottomEnd = 50.dp))
 
                     ) {
                         Row(horizontalArrangement = Arrangement.Center, modifier = modifier
-                            .background(Color.Black)
-                            .padding(top = 8.dp, bottom = 8.dp, start = 24.dp, end = 24.dp)) {
+                            .background(Color.Black).border(2.dp, Color.White, shape = RoundedCornerShape(bottomStart = 50.dp, bottomEnd = 50.dp))
+                            .padding(top = 8.dp, bottom = 8.dp, start = 48.dp, end = 48.dp)) {
                             Text(text = mainViewModel.countState.value.toString(), color = Color.White, fontSize = 20.sp)
                             Text(text = "/", color = Color.White, fontSize = 20.sp)
                             Text(text = mainViewModel.allSizeState.value.toString(), color = Color.White, fontSize = 20.sp)
