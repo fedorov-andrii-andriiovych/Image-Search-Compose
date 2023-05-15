@@ -14,28 +14,32 @@ class MainViewModel(var imageRepository: ImageRepository =App.container.imageRep
 
     private var listImage = listOf<Image>()
 
-    private var count = 0
+    var countState = mutableStateOf(0)
+    var allSizeState = mutableStateOf(0)
 
     fun nextImage(){
-        if(count == listImage.size-1) return
+        if(countState.value == listImage.size-1) return
         else {
-            count++
-            imageState.value = listImage[count]
+            countState.value++
+            imageState.value = listImage[countState.value]
         }
     }
 
     fun lastImage(){
-        if(count == 0) return
+        if(countState.value == 0) return
         else {
-            count--
-            imageState.value = listImage[count]
+            countState.value--
+            imageState.value = listImage[countState.value]
         }
     }
 
 
     fun searchImage(name:String) = viewModelScope.launch(Dispatchers.IO){
        listImage =  imageRepository.getSearchImage(name)
-        if (listImage.isNotEmpty()) imageState.value = listImage.first()
+        if (listImage.isNotEmpty()) {
+            imageState.value = listImage.first()
+            allSizeState.value = listImage.size
+        }
     }
 
 
