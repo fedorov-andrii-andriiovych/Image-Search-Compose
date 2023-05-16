@@ -1,5 +1,12 @@
 package com.fedorov.andrii.andriiovych.imagesearch.screens
 
+import android.content.ContentValues
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.provider.MediaStore
+import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -11,16 +18,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.drawable.toBitmap
+import coil.Coil
+import coil.ImageLoader
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImage
+import coil.compose.ImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
+import coil.request.SuccessResult
+import com.fedorov.andrii.andriiovych.imagesearch.App
 import com.fedorov.andrii.andriiovych.imagesearch.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.R
 import com.fedorov.andrii.andriiovych.imagesearch.Screens
+import com.fedorov.andrii.andriiovych.imagesearch.data.Image
 
 @Composable
 fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel) {
@@ -29,13 +48,16 @@ fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel) {
         clickBack = {
             mainViewModel.screensState.value = Screens.Main
         },
-        onSaveClicked = {  },
+        onSaveClicked = { saveImageToGallery(App.context.applicationContext,mainViewModel.imageState.value) },
         title = mainViewModel.searchState,
     )
 
     }) {
         Column(modifier = modifier.padding(it)) {
-            Box(modifier = modifier.fillMaxWidth().background(Color.White).height(2.dp)) {}
+            Box(modifier = modifier
+                .fillMaxWidth()
+                .background(Color.White)
+                .height(2.dp)) {}
             Box(modifier = modifier.weight(1f), contentAlignment = Alignment.TopCenter) {
                 Box(modifier = modifier.background(Color.Black)) {
                     AsyncImage(
@@ -149,3 +171,36 @@ fun DetailedTopAppBar(
         contentColor = Color.White
     )
 }
+
+
+
+private fun saveImageToGallery(context: Context,image:Image) {
+    val imageLoader = ImageLoader(context)
+    val request = ImageRequest.Builder(context)
+        .data(image.url)
+        .target { drawable ->
+            val bitmap = drawable.toBitmap()
+            saveBitmapToGallery(bitmap, context)
+        }
+        .build()
+    val disposable = imageLoader.enqueue(request)
+}
+private fun saveBitmapToGallery(bitmap: Bitmap, context: Context) {
+    val displayName = "image_${System.currentTimeMillis()}.jpg"
+
+    val contentValues = ContentValues().apply {
+        put(MediaStore.Images.Media.DISPLAY_NAME, displayName)
+        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+    }
+
+    val contentResolver = context.contentResolver
+    val imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+
+    imageUri?.let { uri ->
+        contentResolver.openOutputStream(uri)?.use { outputStream ->
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            outputStream.flush()
+        }
+    }
+}
+
