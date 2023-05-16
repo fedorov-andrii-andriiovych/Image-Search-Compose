@@ -10,34 +10,36 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(var imageRepository: ImageRepository =App.container.imageRepository) :ViewModel(){
 
-    var imageState = mutableStateOf(Image("https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"))
+    init {
+        searchImage("")
+    }
 
-    private var listImage = listOf<Image>()
+     var listImageState = mutableStateOf<List<Image>>(emptyList())
 
     var countState = mutableStateOf(0)
     var allSizeState = mutableStateOf(0)
 
     fun nextImage(){
-        if(countState.value == listImage.size-1 || listImage.isEmpty()) return
-        else {
-            countState.value++
-            imageState.value = listImage[countState.value]
-        }
+//        if(countState.value == listImage.size-1 || listImage.isEmpty()) return
+//        else {
+//            countState.value++
+//            imageState.value = listImage[countState.value]
+//        }
     }
 
     fun lastImage(){
-        if(countState.value == 0 || listImage.isEmpty()) return
-        else {
-            countState.value--
-            imageState.value = listImage[countState.value]
-        }
+//        if(countState.value == 0 || listImage.isEmpty()) return
+//        else {
+//            countState.value--
+//            imageState.value = listImage[countState.value]
+//        }
     }
 
 
     fun searchImage(name:String) = viewModelScope.launch(Dispatchers.IO){
-       listImage =  imageRepository.getSearchImage(name)
+      val listImage =  imageRepository.getSearchImage(name)
         if (listImage.isNotEmpty()) {
-            imageState.value = listImage.first()
+            listImageState.value = listImage
             allSizeState.value = listImage.size
             countState.value = 0
         }

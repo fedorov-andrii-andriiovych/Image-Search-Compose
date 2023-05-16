@@ -3,6 +3,11 @@ package com.fedorov.andrii.andriiovych.imagesearch.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -34,64 +39,54 @@ fun MainScreen(modifier: Modifier,mainViewModel: MainViewModel){
     }
     val controler = LocalSoftwareKeyboardController.current
     Scaffold() {
-        Box(modifier = modifier.padding(it)) {
-            Column(verticalArrangement = Arrangement.SpaceBetween, horizontalAlignment = Alignment.CenterHorizontally) {
-                Box(modifier = modifier
-                    .fillMaxWidth()
-                    .background(Color.Black)) {
-                    OutlinedTextField(
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        value = searchState,
-                        onValueChange = { searchState = it }, singleLine = true, leadingIcon = { IconButton(onClick = { mainViewModel.searchImage(searchState)
+        Column(modifier = modifier.padding(it), verticalArrangement = Arrangement.SpaceBetween) {
+            Box(modifier = modifier
+                .fillMaxWidth()
+                .background(Color.Black)) {
+                OutlinedTextField(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    value = searchState,
+                    onValueChange = { searchState = it }, singleLine = true, leadingIcon = { IconButton(onClick = { mainViewModel.searchImage(searchState)
                         controler?.hide()}) {
-                            Icon(painter = painterResource(id = R.drawable.icon_search), contentDescription = "")
-                        }
-                        }, shape = RoundedCornerShape(50), colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White),
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search), keyboardActions = KeyboardActions{ mainViewModel.searchImage(searchState)
+                        Icon(painter = painterResource(id = R.drawable.icon_search), contentDescription = "")
+                    }
+                    }, shape = RoundedCornerShape(50), colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search), keyboardActions = KeyboardActions{ mainViewModel.searchImage(searchState)
                         controler?.hide()}
-                    )
-                }
-                Box(modifier = modifier.weight(1f).background(Color.Black), contentAlignment = Alignment.TopCenter) {
+                )
+            }
+            LazyVerticalGrid(modifier = modifier.background(Color.Black),columns = GridCells.Adaptive(150.dp) ,
+                contentPadding = PaddingValues(4.dp)) {
+                itemsIndexed(mainViewModel.listImageState.value){_,image->
                     Box() {
                         AsyncImage(
-                            modifier=modifier.fillMaxWidth().fillMaxHeight(),
+                            modifier = modifier.fillMaxWidth().fillMaxHeight(),
                             model = ImageRequest.Builder(context = LocalContext.current)
-                                .data(mainViewModel.imageState.value.url)
+                                .data(image.url)
                                 .crossfade(true)
                                 .build(),
                             error = painterResource(id = R.drawable.icon_error),
                             placeholder = painterResource(id = R.drawable.icon_search),
                             contentDescription = "image",
-                            contentScale = ContentScale.None
+                            contentScale = ContentScale.Crop
                         )
-                    }
-                    Box(modifier = modifier.clip(shape = RoundedCornerShape(bottomStart = 50.dp, bottomEnd = 50.dp))
-
-                    ) {
-                        Row(horizontalArrangement = Arrangement.Center, modifier = modifier
-                            .background(Color.Black).border(2.dp, Color.White, shape = RoundedCornerShape(bottomStart = 50.dp, bottomEnd = 50.dp))
-                            .padding(top = 8.dp, bottom = 8.dp, start = 48.dp, end = 48.dp)) {
-                            Text(text = mainViewModel.countState.value.toString(), color = Color.White, fontSize = 20.sp)
-                            Text(text = "/", color = Color.White, fontSize = 20.sp)
-                            Text(text = mainViewModel.allSizeState.value.toString(), color = Color.White, fontSize = 20.sp)
-                        }
-                    }
                 }
-                Row(modifier = modifier.fillMaxWidth()) {
-                    IconButton(modifier = modifier
-                        .weight(0.5f)
-                        .background(Color.Black)
-                        .border(1.dp, Color.White),onClick = { mainViewModel.lastImage() }) {
-                        Icon(painter = painterResource(id = R.drawable.icon_left), contentDescription = "", tint = Color.White)
-                    }
-                    IconButton(modifier = modifier
-                        .weight(0.5f)
-                        .background(Color.Black)
-                        .border(1.dp, Color.White),onClick = { mainViewModel.nextImage() }) {
-                        Icon(painter = painterResource(id = R.drawable.icon_right), contentDescription = "", tint = Color.White)
-                    }
+                }
+            }
+            Row(modifier = modifier.fillMaxWidth()) {
+                IconButton(modifier = modifier
+                    .weight(0.5f)
+                    .background(Color.Black)
+                    .border(1.dp, Color.White),onClick = { mainViewModel.lastImage() }) {
+                    Icon(painter = painterResource(id = R.drawable.icon_left), contentDescription = "", tint = Color.White)
+                }
+                IconButton(modifier = modifier
+                    .weight(0.5f)
+                    .background(Color.Black)
+                    .border(1.dp, Color.White),onClick = { mainViewModel.nextImage() }) {
+                    Icon(painter = painterResource(id = R.drawable.icon_right), contentDescription = "", tint = Color.White)
                 }
             }
         }
