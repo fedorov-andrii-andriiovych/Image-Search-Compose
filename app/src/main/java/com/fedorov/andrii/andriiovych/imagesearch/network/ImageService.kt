@@ -10,6 +10,7 @@ interface ImageService {
         @Query("q") name: String,
         @Query("image_type") type: String = "photo",
         @Query("lang") lang:String = "ru",
-        @Query("per_page") sizePage:String = "200"
+        @Query("per_page") sizePage:String = "200",
+        @Query("page") page:String = "1"
     ):ImageModel
 }
