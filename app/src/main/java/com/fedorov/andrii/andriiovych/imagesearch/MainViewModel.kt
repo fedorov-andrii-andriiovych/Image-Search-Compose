@@ -13,7 +13,8 @@ class MainViewModel(var imageRepository: ImageRepository =App.container.imageRep
     init {
         searchImage("")
     }
-
+    var screensState = mutableStateOf(Screens.Main)
+    var imageState = mutableStateOf(Image(""))
      var listImageState = mutableStateOf<List<Image>>(emptyList())
 
     var countState = mutableStateOf(0)
@@ -35,7 +36,6 @@ class MainViewModel(var imageRepository: ImageRepository =App.container.imageRep
 //        }
     }
 
-
     fun searchImage(name:String) = viewModelScope.launch(Dispatchers.IO){
       val listImage =  imageRepository.getSearchImage(name)
         if (listImage.isNotEmpty()) {
@@ -44,6 +44,9 @@ class MainViewModel(var imageRepository: ImageRepository =App.container.imageRep
             countState.value = 0
         }
     }
+}
 
-
+enum class Screens{
+    Main,
+    Detailed
 }

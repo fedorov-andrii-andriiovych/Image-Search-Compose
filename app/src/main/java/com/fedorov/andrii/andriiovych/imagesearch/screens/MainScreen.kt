@@ -2,6 +2,7 @@ package com.fedorov.andrii.andriiovych.imagesearch.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -29,6 +30,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.fedorov.andrii.andriiovych.imagesearch.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.R
+import com.fedorov.andrii.andriiovych.imagesearch.Screens
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -57,24 +59,13 @@ fun MainScreen(modifier: Modifier,mainViewModel: MainViewModel){
                         controler?.hide()}
                 )
             }
-            LazyVerticalGrid(modifier = modifier.background(Color.Black),columns = GridCells.Adaptive(150.dp) ,
-                contentPadding = PaddingValues(4.dp)) {
-                itemsIndexed(mainViewModel.listImageState.value){_,image->
-                    Box() {
-                        AsyncImage(
-                            modifier = modifier.fillMaxWidth().fillMaxHeight(),
-                            model = ImageRequest.Builder(context = LocalContext.current)
-                                .data(image.url)
-                                .crossfade(true)
-                                .build(),
-                            error = painterResource(id = R.drawable.icon_error),
-                            placeholder = painterResource(id = R.drawable.icon_search),
-                            contentDescription = "image",
-                            contentScale = ContentScale.Crop
-                        )
-                }
+            Box(modifier = modifier.weight(1f), contentAlignment = Alignment.Center) {
+                when(mainViewModel.screensState.value){
+                    Screens.Main -> MainGridScreen(modifier = modifier, mainViewModel = mainViewModel)
+                    Screens.Detailed-> DetailedScreen(modifier = modifier, mainViewModel = mainViewModel)
                 }
             }
+
             Row(modifier = modifier.fillMaxWidth()) {
                 IconButton(modifier = modifier
                     .weight(0.5f)
@@ -90,5 +81,50 @@ fun MainScreen(modifier: Modifier,mainViewModel: MainViewModel){
                 }
             }
         }
+    }
+}
+
+@Composable
+fun MainGridScreen(modifier: Modifier,mainViewModel: MainViewModel){
+    LazyVerticalGrid(modifier = modifier.background(Color.Black),columns = GridCells.Adaptive(150.dp) ,
+        contentPadding = PaddingValues(4.dp)) {
+        itemsIndexed(mainViewModel.listImageState.value){_,image->
+            Box(modifier = modifier.clickable { mainViewModel.screensState.value = Screens.Detailed
+                mainViewModel.imageState.value = image
+            }) {
+                AsyncImage(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    model = ImageRequest.Builder(context = LocalContext.current)
+                        .data(image.url)
+                        .crossfade(true)
+                        .build(),
+                    error = painterResource(id = R.drawable.icon_error),
+                    placeholder = painterResource(id = R.drawable.icon_search),
+                    contentDescription = "image",
+                    contentScale = ContentScale.Crop
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun DetailedScreen(modifier: Modifier,mainViewModel: MainViewModel){
+    Box(modifier = modifier.background(Color.Black)) {
+        AsyncImage(
+            modifier = modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            model = ImageRequest.Builder(context = LocalContext.current)
+                .data(mainViewModel.imageState.value.url)
+                .crossfade(true)
+                .build(),
+            error = painterResource(id = R.drawable.icon_error),
+            placeholder = painterResource(id = R.drawable.icon_search),
+            contentDescription = "image",
+            contentScale = ContentScale.None
+        )
     }
 }
