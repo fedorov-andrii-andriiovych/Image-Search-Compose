@@ -196,11 +196,18 @@ private fun saveBitmapToGallery(bitmap: Bitmap, context: Context) {
     val contentResolver = context.contentResolver
     val imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
 
-    imageUri?.let { uri ->
-        contentResolver.openOutputStream(uri)?.use { outputStream ->
+    if (imageUri != null) {
+        contentResolver.openOutputStream(imageUri)?.use { outputStream ->
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
             outputStream.flush()
         }
+        showToast(context, "Изображение сохранено")
+    } else {
+        showToast(context, "Не удалось сохранить изображение")
     }
+}
+
+private fun showToast(context: Context, message: String) {
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
 

@@ -8,7 +8,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -31,6 +33,9 @@ import coil.request.ImageRequest
 import com.fedorov.andrii.andriiovych.imagesearch.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.R
 import com.fedorov.andrii.andriiovych.imagesearch.Screens
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -57,8 +62,9 @@ fun MainScreen(modifier: Modifier,mainViewModel: MainViewModel){
                 )
             }
             Box(modifier = modifier.weight(1f), contentAlignment = Alignment.Center) {
+                val state = rememberLazyGridState()
                 LazyVerticalGrid(modifier = modifier.background(Color.Black),columns = GridCells.Adaptive(150.dp) ,
-                    contentPadding = PaddingValues(4.dp)) {
+                    contentPadding = PaddingValues(4.dp), state = state) {
                     itemsIndexed(mainViewModel.listImageState.value){_,image->
                         Box(modifier = modifier.clickable { mainViewModel.screensState.value = Screens.Detailed
                             mainViewModel.imageState.value = image
@@ -74,9 +80,13 @@ fun MainScreen(modifier: Modifier,mainViewModel: MainViewModel){
                                 error = painterResource(id = R.drawable.icon_error),
                                 placeholder = painterResource(id = R.drawable.icon_search),
                                 contentDescription = "image",
-                                contentScale = ContentScale.Crop
+                                contentScale = ContentScale.None
                             )
                         }
+                    }
+                    CoroutineScope(Dispatchers.Main).launch {
+                        state.scrollToItem(mainViewModel.imageState.value.id)
+                    }
                     }
                 }
             }
@@ -84,4 +94,4 @@ fun MainScreen(modifier: Modifier,mainViewModel: MainViewModel){
 
         }
     }
-}
+
