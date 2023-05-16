@@ -8,6 +8,7 @@ interface ImageRepository {
 
 class NetworkImageRepository(var imageService:ImageService):ImageRepository{
     override suspend fun getSearchImage(name: String): List<Image> {
-        return imageService.imageSearch(name = name).hits.map { Image(url = it.largeImageURL) }
+        var count = 0
+        return imageService.imageSearch(name = name).hits.map { Image(url = it.largeImageURL,count++)  }
     }
 }

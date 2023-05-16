@@ -36,9 +36,6 @@ import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MainScreen(modifier: Modifier,mainViewModel: MainViewModel){
-    var searchState by remember {
-        mutableStateOf("")
-    }
     val controler = LocalSoftwareKeyboardController.current
     Scaffold() {
         Column(modifier = modifier.padding(it), verticalArrangement = Arrangement.SpaceBetween) {
@@ -49,82 +46,42 @@ fun MainScreen(modifier: Modifier,mainViewModel: MainViewModel){
                     modifier = modifier
                         .fillMaxWidth()
                         .padding(8.dp),
-                    value = searchState,
-                    onValueChange = { searchState = it }, singleLine = true, leadingIcon = { IconButton(onClick = { mainViewModel.searchImage(searchState)
+                    value = mainViewModel.searchState.value,
+                    onValueChange = { mainViewModel.searchState.value = it }, singleLine = true, leadingIcon = { IconButton(onClick = { mainViewModel.searchImage(mainViewModel.searchState.value)
                         controler?.hide()}) {
                         Icon(painter = painterResource(id = R.drawable.icon_search), contentDescription = "")
                     }
                     }, shape = RoundedCornerShape(50), colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White),
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search), keyboardActions = KeyboardActions{ mainViewModel.searchImage(searchState)
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search), keyboardActions = KeyboardActions{ mainViewModel.searchImage(mainViewModel.searchState.value)
                         controler?.hide()}
                 )
             }
             Box(modifier = modifier.weight(1f), contentAlignment = Alignment.Center) {
-                when(mainViewModel.screensState.value){
-                    Screens.Main -> MainGridScreen(modifier = modifier, mainViewModel = mainViewModel)
-                    Screens.Detailed-> DetailedScreen(modifier = modifier, mainViewModel = mainViewModel)
+                LazyVerticalGrid(modifier = modifier.background(Color.Black),columns = GridCells.Adaptive(150.dp) ,
+                    contentPadding = PaddingValues(4.dp)) {
+                    itemsIndexed(mainViewModel.listImageState.value){_,image->
+                        Box(modifier = modifier.clickable { mainViewModel.screensState.value = Screens.Detailed
+                            mainViewModel.imageState.value = image
+                        }) {
+                            AsyncImage(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(),
+                                model = ImageRequest.Builder(context = LocalContext.current)
+                                    .data(image.url)
+                                    .crossfade(true)
+                                    .build(),
+                                error = painterResource(id = R.drawable.icon_error),
+                                placeholder = painterResource(id = R.drawable.icon_search),
+                                contentDescription = "image",
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                    }
                 }
             }
 
-            Row(modifier = modifier.fillMaxWidth()) {
-                IconButton(modifier = modifier
-                    .weight(0.5f)
-                    .background(Color.Black)
-                    .border(1.dp, Color.White),onClick = { mainViewModel.lastImage() }) {
-                    Icon(painter = painterResource(id = R.drawable.icon_left), contentDescription = "", tint = Color.White)
-                }
-                IconButton(modifier = modifier
-                    .weight(0.5f)
-                    .background(Color.Black)
-                    .border(1.dp, Color.White),onClick = { mainViewModel.nextImage() }) {
-                    Icon(painter = painterResource(id = R.drawable.icon_right), contentDescription = "", tint = Color.White)
-                }
-            }
+
         }
-    }
-}
-
-@Composable
-fun MainGridScreen(modifier: Modifier,mainViewModel: MainViewModel){
-    LazyVerticalGrid(modifier = modifier.background(Color.Black),columns = GridCells.Adaptive(150.dp) ,
-        contentPadding = PaddingValues(4.dp)) {
-        itemsIndexed(mainViewModel.listImageState.value){_,image->
-            Box(modifier = modifier.clickable { mainViewModel.screensState.value = Screens.Detailed
-                mainViewModel.imageState.value = image
-            }) {
-                AsyncImage(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(),
-                    model = ImageRequest.Builder(context = LocalContext.current)
-                        .data(image.url)
-                        .crossfade(true)
-                        .build(),
-                    error = painterResource(id = R.drawable.icon_error),
-                    placeholder = painterResource(id = R.drawable.icon_search),
-                    contentDescription = "image",
-                    contentScale = ContentScale.Crop
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun DetailedScreen(modifier: Modifier,mainViewModel: MainViewModel){
-    Box(modifier = modifier.background(Color.Black)) {
-        AsyncImage(
-            modifier = modifier
-                .fillMaxWidth()
-                .fillMaxHeight(),
-            model = ImageRequest.Builder(context = LocalContext.current)
-                .data(mainViewModel.imageState.value.url)
-                .crossfade(true)
-                .build(),
-            error = painterResource(id = R.drawable.icon_error),
-            placeholder = painterResource(id = R.drawable.icon_search),
-            contentDescription = "image",
-            contentScale = ContentScale.None
-        )
     }
 }
