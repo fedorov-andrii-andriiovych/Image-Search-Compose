@@ -48,12 +48,16 @@ fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel) {
         clickBack = {
             mainViewModel.screensState.value = Screens.Main
         },
-        onSaveClicked = { saveImageToGallery(App.context.applicationContext,mainViewModel.imageState.value) },
+        onSaveClicked = { mainViewModel.saveImageToGallery() },
         title = mainViewModel.searchState,
     )
 
     }) {
         Column(modifier = modifier.padding(it)) {
+            if (mainViewModel.toastState.value != "") {
+                showToast(LocalContext.current,mainViewModel.toastState.value)
+                mainViewModel.toastState.value = ""
+            }
             Box(modifier = modifier
                 .fillMaxWidth()
                 .background(Color.White)
@@ -170,41 +174,6 @@ fun DetailedTopAppBar(
         elevation = 8.dp,
         contentColor = Color.White
     )
-}
-
-
-
-private fun saveImageToGallery(context: Context,image:Image) {
-    val imageLoader = ImageLoader(context)
-    val request = ImageRequest.Builder(context)
-        .data(image.url)
-        .target { drawable ->
-            val bitmap = drawable.toBitmap()
-            saveBitmapToGallery(bitmap, context)
-        }
-        .build()
-    val disposable = imageLoader.enqueue(request)
-}
-private fun saveBitmapToGallery(bitmap: Bitmap, context: Context) {
-    val displayName = "image_${System.currentTimeMillis()}.jpg"
-
-    val contentValues = ContentValues().apply {
-        put(MediaStore.Images.Media.DISPLAY_NAME, displayName)
-        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-    }
-
-    val contentResolver = context.contentResolver
-    val imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-
-    if (imageUri != null) {
-        contentResolver.openOutputStream(imageUri)?.use { outputStream ->
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-            outputStream.flush()
-        }
-        showToast(context, "Изображение сохранено")
-    } else {
-        showToast(context, "Не удалось сохранить изображение")
-    }
 }
 
 private fun showToast(context: Context, message: String) {

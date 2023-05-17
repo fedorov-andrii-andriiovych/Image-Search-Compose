@@ -1,6 +1,5 @@
 package com.fedorov.andrii.andriiovych.imagesearch.data
 
-import com.fedorov.andrii.andriiovych.imagesearch.network.ImageModel
 import com.fedorov.andrii.andriiovych.imagesearch.network.ImageService
 
 interface ImageRepository {
