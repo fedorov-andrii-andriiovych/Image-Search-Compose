@@ -1,4 +1,4 @@
-package com.fedorov.andrii.andriiovych.imagesearch
+package com.fedorov.andrii.andriiovych.imagesearch.presentation
 
 import android.content.ContentValues
 import android.content.Context
@@ -10,13 +10,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
 import coil.request.ImageRequest
-import com.fedorov.andrii.andriiovych.imagesearch.data.Image
-import com.fedorov.andrii.andriiovych.imagesearch.data.ImageRepository
+import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
+import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.NetworkRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    var imageRepository: ImageRepository = App.container.imageRepository,
+    var networkRepository: NetworkRepository = App.container.networkRepository,
     private val context: App = App.context
 ) :
     ViewModel() {
@@ -26,41 +26,41 @@ class MainViewModel(
     }
 
     var searchState = mutableStateOf("Автомобили")
-    var imageState = mutableStateOf(Image("", 0))
-    var listImageState = mutableStateOf<List<Image>>(emptyList())
+    var imageModelState = mutableStateOf(ImageModel("", 0))
+    var listImageStateModel = mutableStateOf<List<ImageModel>>(emptyList())
     var allSizeState = mutableStateOf(0)
     var toastState = mutableStateOf("")
 
     fun nextImage() {
-        var count = imageState.value.id
+        var count = imageModelState.value.id
         if (count == allSizeState.value - 1) return
         else {
             count++
-            imageState.value = listImageState.value[count]
+            imageModelState.value = listImageStateModel.value[count]
         }
     }
 
     fun lastImage() {
-        var count = imageState.value.id
+        var count = imageModelState.value.id
         if (count == 0) return
         else {
             count--
-            imageState.value = listImageState.value[count]
+            imageModelState.value = listImageStateModel.value[count]
         }
     }
 
     fun searchImage(name: String) = viewModelScope.launch(Dispatchers.IO) {
-        var listImage = imageRepository.getSearchImage(name)
+        var listImage = networkRepository.getSearchImage(name)
         if (listImage.isNotEmpty()) {
-            listImageState.value = listImage
+            listImageStateModel.value = listImage
             allSizeState.value = listImage.size
         }
     }
 
-    fun saveImageToGallery(image: Image = imageState.value) {
+    fun saveImageToGallery(imageModel: ImageModel = imageModelState.value) {
         val imageLoader = ImageLoader(context)
         val request = ImageRequest.Builder(context)
-            .data(image.url)
+            .data(imageModel.url)
             .target { drawable ->
                 val bitmap = drawable.toBitmap()
                 saveBitmapToGallery(bitmap, context)

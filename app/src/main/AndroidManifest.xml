@@ -13,9 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ImageSearch"
         tools:targetApi="31"
-        android:name=".App">
+        android:name=".presentation.App">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.ImageSearch"

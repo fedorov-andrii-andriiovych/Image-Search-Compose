@@ -1,4 +1,4 @@
-package com.fedorov.andrii.andriiovych.imagesearch.screens
+package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens
 
 import android.content.Context
 import android.widget.Toast
@@ -20,11 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.fedorov.andrii.andriiovych.imagesearch.MainViewModel
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.R
 
 @Composable
-fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel,onBackClicked: () -> Unit) {
+fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel, onBackClicked: () -> Unit) {
     Scaffold(topBar = {  DetailedTopAppBar(
         modifier = modifier,
         onBackClicked = {
@@ -51,7 +51,7 @@ fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel,onBackClicke
                             .fillMaxWidth()
                             .fillMaxHeight(),
                         model = ImageRequest.Builder(context = LocalContext.current)
-                            .data(mainViewModel.imageState.value.url)
+                            .data(mainViewModel.imageModelState.value.url)
                             .crossfade(true)
                             .build(),
                         error = painterResource(id = R.drawable.icon_error),
@@ -80,7 +80,7 @@ fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel,onBackClicke
                             .padding(top = 8.dp, bottom = 8.dp, start = 48.dp, end = 48.dp)
                     ) {
                         Text(
-                            text = mainViewModel.imageState.value.id.toString(),
+                            text = mainViewModel.imageModelState.value.id.toString(),
                             color = Color.White,
                             fontSize = 20.sp
                         )

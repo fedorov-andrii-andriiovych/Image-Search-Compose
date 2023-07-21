@@ -1,4 +1,4 @@
-package com.fedorov.andrii.andriiovych.imagesearch
+package com.fedorov.andrii.andriiovych.imagesearch.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,8 +11,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.fedorov.andrii.andriiovych.imagesearch.screens.DetailedScreen
-import com.fedorov.andrii.andriiovych.imagesearch.screens.MainScreen
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.DetailedScreen
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.MainScreen
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.ImageSearchTheme
 
 class MainActivity : ComponentActivity() {

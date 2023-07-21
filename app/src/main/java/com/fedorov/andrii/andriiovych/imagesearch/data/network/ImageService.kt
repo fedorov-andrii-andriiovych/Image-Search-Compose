@@ -1,5 +1,6 @@
-package com.fedorov.andrii.andriiovych.imagesearch.network
+package com.fedorov.andrii.andriiovych.imagesearch.data.network
 
+import com.fedorov.andrii.andriiovych.imagesearch.data.network.models.ImageModelResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -13,5 +14,5 @@ interface ImageService {
         @Query("per_page") sizePage: String = "200",
         @Query("page") page: String = "1",
         @Query("orientation") orientation: String = "horizontal"
-    ): ImageModel
+    ): ImageModelResponse
 }

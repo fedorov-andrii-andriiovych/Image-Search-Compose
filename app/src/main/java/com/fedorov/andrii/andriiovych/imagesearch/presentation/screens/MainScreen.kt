@@ -1,4 +1,4 @@
-package com.fedorov.andrii.andriiovych.imagesearch.screens
+package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,7 +24,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.fedorov.andrii.andriiovych.imagesearch.MainViewModel
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel,onDetailedClicked:()->Unit) {
+fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClicked:()->Unit) {
     val controler = LocalSoftwareKeyboardController.current
     Scaffold() {
         Column(modifier = Modifier.padding(it).background(Color.Black), verticalArrangement = Arrangement.SpaceBetween) {
@@ -74,10 +74,10 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel,onDetailedClicke
                     modifier = modifier.padding(start = 8.dp, end = 8.dp), columns = GridCells.Fixed(2),
                     contentPadding = PaddingValues(4.dp), state = state
                 ) {
-                    itemsIndexed(mainViewModel.listImageState.value) { _, image ->
+                    itemsIndexed(mainViewModel.listImageStateModel.value) { _, image ->
                         Box(modifier = modifier.fillMaxSize().clickable {
                             onDetailedClicked()
-                            mainViewModel.imageState.value = image
+                            mainViewModel.imageModelState.value = image
                         }.padding(8.dp), contentAlignment = Alignment.Center) {
                             AsyncImage(
                                 modifier = modifier
@@ -96,7 +96,7 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel,onDetailedClicke
                         }
                     }
                     CoroutineScope(Dispatchers.Main).launch {
-                        state.scrollToItem(mainViewModel.imageState.value.id)
+                        state.scrollToItem(mainViewModel.imageModelState.value.id)
                     }
                 }
             }

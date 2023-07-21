@@ -1,8 +1,8 @@
-package com.fedorov.andrii.andriiovych.imagesearch.network
+package com.fedorov.andrii.andriiovych.imagesearch.data.network.models
 
 import com.google.gson.annotations.SerializedName
 
-data class ImageModel(
+data class ImageModelResponse(
 
 	@field:SerializedName("hits")
 	val hits: List<HitsItem>,
