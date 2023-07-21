@@ -2,22 +2,21 @@ package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,11 +24,13 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.R
-import dagger.hilt.android.qualifiers.ApplicationContext
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel) {
     val context = LocalContext.current
+    val pageState = rememberPagerState()
+
     Scaffold(topBar = {
         DetailedTopAppBar(
             modifier = modifier,
@@ -51,44 +52,24 @@ fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel) {
                     .fillMaxWidth()
                     .background(Color.White)
                     .height(1.dp)
-            ) {}
-            Box(modifier = modifier.weight(1f), contentAlignment = Alignment.TopCenter) {
-                Box(modifier = modifier.background(Color.Black)) {
-                    AsyncImage(
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(),
-                        model = ImageRequest.Builder(context = LocalContext.current)
-                            .data(mainViewModel.imageModelState.value.url)
-                            .crossfade(true)
-                            .build(),
-                        error = painterResource(id = R.drawable.icon_error),
-                        placeholder = painterResource(id = R.drawable.icon_search),
-                        contentDescription = stringResource(R.string.image),
-                        contentScale = ContentScale.None
-                    )
-                }
-            }
-            Row(modifier = modifier.fillMaxWidth()) {
-                IconButton(modifier = modifier
-                    .weight(0.5f)
-                    .background(Color.Black)
-                    .border(1.dp, Color.White), onClick = { mainViewModel.lastImage() }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_left),
-                        contentDescription = "",
-                        tint = Color.White
-                    )
-                }
-                IconButton(modifier = modifier
-                    .weight(0.5f)
-                    .background(Color.Black)
-                    .border(1.dp, Color.White), onClick = { mainViewModel.nextImage() }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_right),
-                        contentDescription = "",
-                        tint = Color.White
-                    )
+            )
+            Box(modifier = modifier.weight(1f).background(Color.Black), contentAlignment = Alignment.TopCenter) {
+                    HorizontalPager(pageCount = mainViewModel.listImageStateModel.value.size,
+                    state = pageState,
+                    key = {index -> mainViewModel.listImageStateModel.value[index].id }) {id->
+                        AsyncImage(
+                            modifier = modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(),
+                            model = ImageRequest.Builder(context = LocalContext.current)
+                                .data(mainViewModel.listImageStateModel.value[id].url)
+                                .crossfade(true)
+                                .build(),
+                            error = painterResource(id = R.drawable.icon_error),
+                            placeholder = painterResource(id = R.drawable.icon_search),
+                            contentDescription = stringResource(R.string.image),
+                            contentScale = ContentScale.None
+                        )
                 }
             }
         }
@@ -134,6 +115,8 @@ fun DetailedTopAppBar(
         contentColor = Color.White
     )
 }
+
+
 
 private fun showToast(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
