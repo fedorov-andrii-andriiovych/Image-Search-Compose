@@ -13,6 +13,8 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.NetworkRepository
+import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.ImageSaveUseCase
+import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.ImageSearchUseCase
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.App
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -23,7 +25,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     var networkRepository: NetworkRepository,
-    @ApplicationContext val context: Context
+    @ApplicationContext val context: Context,
+    private val imageSaveUseCase: ImageSaveUseCase,
+    private val imageSearchUseCase: ImageSearchUseCase
 ) :
     ViewModel() {
 
@@ -64,34 +68,8 @@ class MainViewModel @Inject constructor(
     }
 
     fun saveImageToGallery(imageModel: ImageModel = imageModelState.value) {
-        val imageLoader = ImageLoader(context)
-        val request = ImageRequest.Builder(context)
-            .data(imageModel.url)
-            .target { drawable ->
-                val bitmap = drawable.toBitmap()
-                saveBitmapToGallery(bitmap, context)
-            }
-            .build()
-        val disposable = imageLoader.enqueue(request)
-    }
-
-    private fun saveBitmapToGallery(bitmap: Bitmap, context: Context) {
-        val displayName = "image_${System.currentTimeMillis()}.jpg"
-
-        val contentValues = ContentValues().apply {
-            put(MediaStore.Images.Media.DISPLAY_NAME, displayName)
-            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-        }
-
-        val contentResolver = context.contentResolver
-        val imageUri =
-            contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-
-        if (imageUri != null) {
-            contentResolver.openOutputStream(imageUri)?.use { outputStream ->
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-                outputStream.flush()
-            }
+      val result = imageSaveUseCase.saveImageToGallery(imageModel = imageModel)
+        if (result) {
             toastState.value = "Изображение сохранено"
         } else {
             toastState.value = "Не удалось сохранить изображение"

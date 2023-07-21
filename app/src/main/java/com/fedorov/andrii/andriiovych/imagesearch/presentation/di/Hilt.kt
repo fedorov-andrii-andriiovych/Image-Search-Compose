@@ -1,7 +1,9 @@
 package com.fedorov.andrii.andriiovych.imagesearch.presentation.di
 
 import com.fedorov.andrii.andriiovych.imagesearch.data.network.ImageService
+import com.fedorov.andrii.andriiovych.imagesearch.data.repositories.ImageSaveRepositoryImpl
 import com.fedorov.andrii.andriiovych.imagesearch.data.repositories.NetworkRepositoryImpl
+import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.ImageSaveRepository
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.NetworkRepository
 import dagger.Binds
 import dagger.Module
@@ -21,6 +23,9 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
     @Binds
     abstract fun bindNetworkRepository(NetworkRepositoryImpl: NetworkRepositoryImpl): NetworkRepository
+
+    @Binds
+    abstract fun bindImageSaveRepository(ImageSaveRepositoryImpl: ImageSaveRepositoryImpl): ImageSaveRepository
 }
 
 @Module
