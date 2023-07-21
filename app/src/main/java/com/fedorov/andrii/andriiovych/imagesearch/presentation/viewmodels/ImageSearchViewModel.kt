@@ -21,34 +21,15 @@ class MainViewModel @Inject constructor(
         searchImage(CAR)
     }
 
+    var imageId:Int = 0
     var searchState = mutableStateOf(CAR)
     var imageModelState = mutableStateOf(ImageModel())
     var listImageStateModel = mutableStateOf<List<ImageModel>>(emptyList())
-    var allSizeState = mutableStateOf(0)
-
-    fun nextImage() {
-        var count = imageModelState.value.id
-        if (count == allSizeState.value - 1) return
-        else {
-            count++
-            imageModelState.value = listImageStateModel.value[count]
-        }
-    }
-
-    fun lastImage() {
-        var count = imageModelState.value.id
-        if (count == 0) return
-        else {
-            count--
-            imageModelState.value = listImageStateModel.value[count]
-        }
-    }
 
     fun searchImage(name: String) = viewModelScope.launch {
         var listImage = imageSearchUseCase.searchImage(name)
         if (listImage.isNotEmpty()) {
             listImageStateModel.value = listImage
-            allSizeState.value = listImage.size
         }
     }
 

@@ -14,7 +14,7 @@ import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(onShareClicked:(String)->Unit) {
     val mainViewModel: MainViewModel = viewModel()
     val navController = rememberNavController()
     Scaffold(
@@ -35,7 +35,10 @@ fun HomeScreen() {
                 composable(BottomItem.SCREEN_DETAILED) {
                     DetailedScreen(
                         modifier = Modifier,
-                        mainViewModel = mainViewModel)
+                        mainViewModel = mainViewModel,
+                    onShareClicked = {url->
+                        onShareClicked(url)
+                    })
                 }
                 composable(BottomItem.SCREEN_FAVORITES){
                    FavoritesScreen()

@@ -27,9 +27,13 @@ import com.fedorov.andrii.andriiovych.imagesearch.R
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel) {
+fun DetailedScreen(
+    modifier: Modifier,
+    mainViewModel: MainViewModel,
+    onShareClicked: (String) -> Unit
+) {
     val context = LocalContext.current
-    val pageState = rememberPagerState()
+    val pageState = rememberPagerState(initialPage = mainViewModel.imageId )
 
     Scaffold(topBar = {
         DetailedTopAppBar(
@@ -43,6 +47,9 @@ fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel) {
                 }
             },
             title = mainViewModel.searchState,
+            onShareClicked = {
+                onShareClicked(mainViewModel.listImageStateModel.value[mainViewModel.imageId].url)
+            }
         )
 
     }) {
@@ -53,24 +60,31 @@ fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel) {
                     .background(Color.White)
                     .height(1.dp)
             )
-            Box(modifier = modifier.weight(1f).background(Color.Black), contentAlignment = Alignment.TopCenter) {
-                    HorizontalPager(pageCount = mainViewModel.listImageStateModel.value.size,
-                    state = pageState,
-                    key = {index -> mainViewModel.listImageStateModel.value[index].id }) {id->
-                        AsyncImage(
-                            modifier = modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight(),
-                            model = ImageRequest.Builder(context = LocalContext.current)
-                                .data(mainViewModel.listImageStateModel.value[id].url)
-                                .crossfade(true)
-                                .build(),
-                            error = painterResource(id = R.drawable.icon_error),
-                            placeholder = painterResource(id = R.drawable.icon_search),
-                            contentDescription = stringResource(R.string.image),
-                            contentScale = ContentScale.None
-                        )
-                }
+            Box(
+                modifier = modifier
+                    .weight(1f)
+                    .background(Color.Black),
+                contentAlignment = Alignment.TopCenter
+            ) {
+                        HorizontalPager(pageCount = mainViewModel.listImageStateModel.value.size,
+                            state = pageState,
+                            key = { index -> mainViewModel.listImageStateModel.value[index].id },
+                        ) { id ->
+                            mainViewModel.imageId = id
+                            AsyncImage(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(),
+                                model = ImageRequest.Builder(context = LocalContext.current)
+                                    .data(mainViewModel.listImageStateModel.value[id].url)
+                                    .crossfade(true)
+                                    .build(),
+                                error = painterResource(id = R.drawable.icon_error),
+                                placeholder = painterResource(id = R.drawable.icon_search),
+                                contentDescription = stringResource(R.string.image),
+                                contentScale = ContentScale.None
+                            )
+                        }
             }
         }
     }
@@ -80,7 +94,8 @@ fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel) {
 fun DetailedTopAppBar(
     modifier: Modifier,
     title: State<String>,
-    onSaveClicked: () -> Unit
+    onSaveClicked: () -> Unit,
+    onShareClicked: () -> Unit
 ) {
     TopAppBar(
         title = {
@@ -109,13 +124,20 @@ fun DetailedTopAppBar(
                     contentDescription = stringResource(R.string.save)
                 )
             }
+            IconButton(onClick = {
+                onShareClicked()
+            }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_share),
+                    contentDescription = stringResource(R.string.share_image)
+                )
+            }
         },
         backgroundColor = Color.Black,
         elevation = 8.dp,
         contentColor = Color.White
     )
 }
-
 
 
 private fun showToast(context: Context, message: String) {

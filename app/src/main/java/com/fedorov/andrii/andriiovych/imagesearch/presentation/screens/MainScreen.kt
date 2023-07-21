@@ -82,10 +82,10 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClick
                     modifier = modifier, columns = GridCells.Fixed(2),
                     contentPadding = PaddingValues(4.dp), state = state
                 ) {
-                    itemsIndexed(mainViewModel.listImageStateModel.value) { _, image ->
+                    itemsIndexed(mainViewModel.listImageStateModel.value) { index, image ->
                         ImageCard(image = image, onDetailedClicked = {
                             onDetailedClicked()
-                            mainViewModel.imageModelState.value = image
+                            mainViewModel.imageId = index
                         })
                     }
                     CoroutineScope(Dispatchers.Main).launch {
