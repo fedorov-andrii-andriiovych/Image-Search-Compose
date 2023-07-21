@@ -21,6 +21,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -105,7 +106,7 @@ fun ImageCard(image: ImageModel, onDetailedClicked: (ImageModel) -> Unit) {
         .clickable {
             onDetailedClicked(image)
         }
-        .clip(RoundedCornerShape(25.dp))) {
+        .clip(RoundedCornerShape(25.dp)), contentAlignment = Alignment.TopEnd) {
 
         AsyncImage(
             modifier = Modifier
@@ -121,6 +122,16 @@ fun ImageCard(image: ImageModel, onDetailedClicked: (ImageModel) -> Unit) {
             contentDescription = "image",
             contentScale = ContentScale.Crop
         )
+
+        IconButton(onClick = {
+            //Todo
+        }) {
+            Icon(
+                painter = painterResource(id = R.drawable.icon_star_full),
+                contentDescription = stringResource(R.string.star_full),
+                tint = Color.Yellow
+            )
+        }
     }
 }
 

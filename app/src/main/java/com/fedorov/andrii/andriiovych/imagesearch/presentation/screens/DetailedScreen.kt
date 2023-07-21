@@ -17,6 +17,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -26,20 +28,17 @@ import com.fedorov.andrii.andriiovych.imagesearch.R
 import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Composable
-fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel, onBackClicked: () -> Unit) {
+fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel) {
     val context = LocalContext.current
     Scaffold(topBar = {
         DetailedTopAppBar(
             modifier = modifier,
-            onBackClicked = {
-                onBackClicked()
-            },
             onSaveClicked = {
                 val result = mainViewModel.saveImageToGallery()
                 if (result) {
-                    showToast(context,context.resources.getString(R.string.image_saved))
+                    showToast(context, context.resources.getString(R.string.image_saved))
                 } else {
-                    showToast(context,context.resources.getString(R.string.image_dont_saved))
+                    showToast(context, context.resources.getString(R.string.image_dont_saved))
                 }
             },
             title = mainViewModel.searchState,
@@ -74,8 +73,7 @@ fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel, onBackClick
                 IconButton(modifier = modifier
                     .weight(0.5f)
                     .background(Color.Black)
-                    .border(1.dp, Color.White)
-                    , onClick = { mainViewModel.lastImage() }) {
+                    .border(1.dp, Color.White), onClick = { mainViewModel.lastImage() }) {
                     Icon(
                         painter = painterResource(id = R.drawable.icon_left),
                         contentDescription = "",
@@ -100,27 +98,28 @@ fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel, onBackClick
 @Composable
 fun DetailedTopAppBar(
     modifier: Modifier,
-    onBackClicked: () -> Unit,
     title: State<String>,
     onSaveClicked: () -> Unit
 ) {
-    TopAppBar(navigationIcon = {
-        IconButton(onClick = {
-            onBackClicked()
-        }) {
-            Icon(
-                painter = painterResource(id = R.drawable.icon_back),
-                contentDescription = stringResource(R.string.back),
-                tint = Color.White
+    TopAppBar(
+        title = {
+            Text(
+                text = title.value.capitalize(),
+                fontSize = 24.sp, color = Color.White,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
             )
-        }
-    }, title = {
-        Text(
-            text = title.value,
-            fontSize = 24.sp, color = Color.White
-        )
-    },
+        },
         actions = {
+            IconButton(onClick = {
+                //Todo
+            }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_star_full),
+                    contentDescription = stringResource(R.string.star_full),
+                    tint = Color.Yellow
+                )
+            }
             IconButton(onClick = {
                 onSaveClicked()
             }) {

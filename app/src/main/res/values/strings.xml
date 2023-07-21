@@ -5,4 +5,6 @@
     <string name="image">image</string>
     <string name="back">back</string>
     <string name="save">save</string>
+    <string name="star_full">star_full</string>
+    <string name="icon">icon</string>
 </resources>
