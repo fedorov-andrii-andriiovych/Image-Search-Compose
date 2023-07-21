@@ -1,12 +1,7 @@
 package com.fedorov.andrii.andriiovych.imagesearch.screens
 
-import android.content.ContentValues
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.provider.MediaStore
 import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -18,35 +13,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.drawable.toBitmap
-import coil.Coil
-import coil.ImageLoader
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImage
-import coil.compose.ImagePainter
-import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
-import coil.request.SuccessResult
-import com.fedorov.andrii.andriiovych.imagesearch.App
 import com.fedorov.andrii.andriiovych.imagesearch.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.R
-import com.fedorov.andrii.andriiovych.imagesearch.Screens
-import com.fedorov.andrii.andriiovych.imagesearch.data.Image
 
 @Composable
-fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel) {
+fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel,onBackClicked: () -> Unit) {
     Scaffold(topBar = {  DetailedTopAppBar(
         modifier = modifier,
-        clickBack = {
-            mainViewModel.screensState.value = Screens.Main
+        onBackClicked = {
+            onBackClicked()
         },
         onSaveClicked = { mainViewModel.saveImageToGallery() },
         title = mainViewModel.searchState,
@@ -140,13 +122,13 @@ fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel) {
 @Composable
 fun DetailedTopAppBar(
     modifier: Modifier,
-    clickBack: () -> Unit,
-    title:State<String> ,
+    onBackClicked: () -> Unit,
+    title:State<String>,
     onSaveClicked: () -> Unit
 ) {
     TopAppBar(navigationIcon = {
         IconButton(onClick = {
-            clickBack()
+            onBackClicked()
         }) {
             Icon(
                 painter = painterResource(id = R.drawable.icon_back),

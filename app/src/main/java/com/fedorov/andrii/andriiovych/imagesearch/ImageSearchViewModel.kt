@@ -26,7 +26,6 @@ class MainViewModel(
     }
 
     var searchState = mutableStateOf("Автомобили")
-    var screensState = mutableStateOf(Screens.Main)
     var imageState = mutableStateOf(Image("", 0))
     var listImageState = mutableStateOf<List<Image>>(emptyList())
     var allSizeState = mutableStateOf(0)
@@ -92,9 +91,4 @@ class MainViewModel(
             toastState.value = "Не удалось сохранить изображение"
         }
     }
-}
-
-enum class Screens {
-    Main,
-    Detailed
 }
