@@ -16,34 +16,43 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.R
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Composable
 fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel, onBackClicked: () -> Unit) {
-    Scaffold(topBar = {  DetailedTopAppBar(
-        modifier = modifier,
-        onBackClicked = {
-            onBackClicked()
-        },
-        onSaveClicked = { mainViewModel.saveImageToGallery() },
-        title = mainViewModel.searchState,
-    )
+    val context = LocalContext.current
+    Scaffold(topBar = {
+        DetailedTopAppBar(
+            modifier = modifier,
+            onBackClicked = {
+                onBackClicked()
+            },
+            onSaveClicked = {
+                val result = mainViewModel.saveImageToGallery()
+                if (result) {
+                    showToast(context,context.resources.getString(R.string.image_saved))
+                } else {
+                    showToast(context,context.resources.getString(R.string.image_dont_saved))
+                }
+            },
+            title = mainViewModel.searchState,
+        )
 
     }) {
         Column(modifier = modifier.padding(it)) {
-            if (mainViewModel.toastState.value != "") {
-                showToast(LocalContext.current,mainViewModel.toastState.value)
-                mainViewModel.toastState.value = ""
-            }
-            Box(modifier = modifier
-                .fillMaxWidth()
-                .background(Color.White)
-                .height(2.dp)) {}
+            Box(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .background(Color.White)
+                    .height(2.dp)
+            ) {}
             Box(modifier = modifier.weight(1f), contentAlignment = Alignment.TopCenter) {
                 Box(modifier = modifier.background(Color.Black)) {
                     AsyncImage(
@@ -56,7 +65,7 @@ fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel, onBackClick
                             .build(),
                         error = painterResource(id = R.drawable.icon_error),
                         placeholder = painterResource(id = R.drawable.icon_search),
-                        contentDescription = "image",
+                        contentDescription = stringResource(R.string.image),
                         contentScale = ContentScale.None
                     )
                 }
@@ -123,7 +132,7 @@ fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel, onBackClick
 fun DetailedTopAppBar(
     modifier: Modifier,
     onBackClicked: () -> Unit,
-    title:State<String>,
+    title: State<String>,
     onSaveClicked: () -> Unit
 ) {
     TopAppBar(navigationIcon = {
@@ -132,7 +141,7 @@ fun DetailedTopAppBar(
         }) {
             Icon(
                 painter = painterResource(id = R.drawable.icon_back),
-                contentDescription = "back",
+                contentDescription = stringResource(R.string.back),
                 tint = Color.White
             )
         }
@@ -148,7 +157,7 @@ fun DetailedTopAppBar(
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.icon_save),
-                    contentDescription = "save"
+                    contentDescription = stringResource(R.string.save)
                 )
             }
         },

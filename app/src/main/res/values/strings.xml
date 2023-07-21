@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Image Search</string>
+    <string name="image_saved">Изображение сохранено</string>
+    <string name="image_dont_saved">Не удалось сохранить изображение</string>
+    <string name="image">image</string>
+    <string name="back">back</string>
+    <string name="save">save</string>
 </resources>
