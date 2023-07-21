@@ -51,7 +51,7 @@ fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel, onBackClick
                 modifier = modifier
                     .fillMaxWidth()
                     .background(Color.White)
-                    .height(2.dp)
+                    .height(1.dp)
             ) {}
             Box(modifier = modifier.weight(1f), contentAlignment = Alignment.TopCenter) {
                 Box(modifier = modifier.background(Color.Black)) {
@@ -69,44 +69,13 @@ fun DetailedScreen(modifier: Modifier, mainViewModel: MainViewModel, onBackClick
                         contentScale = ContentScale.None
                     )
                 }
-                Box(
-                    modifier = modifier.clip(
-                        shape = RoundedCornerShape(
-                            bottomStart = 50.dp,
-                            bottomEnd = 50.dp
-                        )
-                    )
-
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.Center, modifier = modifier
-                            .background(Color.Black)
-                            .border(
-                                1.dp,
-                                Color.White,
-                                shape = RoundedCornerShape(bottomStart = 50.dp, bottomEnd = 50.dp)
-                            )
-                            .padding(top = 8.dp, bottom = 8.dp, start = 48.dp, end = 48.dp)
-                    ) {
-                        Text(
-                            text = mainViewModel.imageModelState.value.id.toString(),
-                            color = Color.White,
-                            fontSize = 20.sp
-                        )
-                        Text(text = "/", color = Color.White, fontSize = 20.sp)
-                        Text(
-                            text = mainViewModel.allSizeState.value.toString(),
-                            color = Color.White,
-                            fontSize = 20.sp
-                        )
-                    }
-                }
             }
             Row(modifier = modifier.fillMaxWidth()) {
                 IconButton(modifier = modifier
                     .weight(0.5f)
                     .background(Color.Black)
-                    .border(1.dp, Color.White), onClick = { mainViewModel.lastImage() }) {
+                    .border(1.dp, Color.White)
+                    , onClick = { mainViewModel.lastImage() }) {
                     Icon(
                         painter = painterResource(id = R.drawable.icon_left),
                         contentDescription = "",

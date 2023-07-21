@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -26,16 +27,22 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.R
+import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClicked:()->Unit) {
-    val controler = LocalSoftwareKeyboardController.current
+fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClicked: () -> Unit) {
+    val controller = LocalSoftwareKeyboardController.current
     Scaffold() {
-        Column(modifier = Modifier.padding(it).background(Color.Black), verticalArrangement = Arrangement.SpaceBetween) {
+        Column(
+            modifier = Modifier
+                .padding(it)
+                .background(Color.Black),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
             Box(
                 modifier = modifier
                     .fillMaxWidth()
@@ -44,14 +51,14 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClick
                 OutlinedTextField(
                     modifier = modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(8.dp),
                     value = mainViewModel.searchState.value,
                     onValueChange = { mainViewModel.searchState.value = it },
                     singleLine = true,
                     leadingIcon = {
                         IconButton(onClick = {
                             mainViewModel.searchImage(mainViewModel.searchState.value)
-                            controler?.hide()
+                            controller?.hide()
                         }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.icon_search),
@@ -64,36 +71,21 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClick
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                     keyboardActions = KeyboardActions {
                         mainViewModel.searchImage(mainViewModel.searchState.value)
-                        controler?.hide()
+                        controller?.hide()
                     }
                 )
             }
             Box(modifier = modifier.weight(1f), contentAlignment = Alignment.Center) {
                 val state = rememberLazyGridState()
                 LazyVerticalGrid(
-                    modifier = modifier.padding(start = 8.dp, end = 8.dp), columns = GridCells.Fixed(2),
+                    modifier = modifier, columns = GridCells.Fixed(2),
                     contentPadding = PaddingValues(4.dp), state = state
                 ) {
                     itemsIndexed(mainViewModel.listImageStateModel.value) { _, image ->
-                        Box(modifier = modifier.fillMaxSize().clickable {
+                        ImageCard(image = image, onDetailedClicked = {
                             onDetailedClicked()
                             mainViewModel.imageModelState.value = image
-                        }.padding(8.dp), contentAlignment = Alignment.Center) {
-                            AsyncImage(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight()
-                                    .padding(4.dp),
-                                model = ImageRequest.Builder(context = LocalContext.current)
-                                    .data(image.url)
-                                    .crossfade(true)
-                                    .build(),
-                                error = painterResource(id = R.drawable.icon_error),
-                                placeholder = painterResource(id = R.drawable.icon_search),
-                                contentDescription = "image",
-                                contentScale = ContentScale.Crop
-                            )
-                        }
+                        })
                     }
                     CoroutineScope(Dispatchers.Main).launch {
                         state.scrollToItem(mainViewModel.imageModelState.value.id)
@@ -103,6 +95,32 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClick
         }
 
 
+    }
+}
+
+@Composable
+fun ImageCard(image: ImageModel, onDetailedClicked: (ImageModel) -> Unit) {
+    Box(modifier = Modifier
+        .size(150.dp)
+        .clickable {
+            onDetailedClicked(image)
+        }
+        .clip(RoundedCornerShape(25.dp))) {
+
+        AsyncImage(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .padding(4.dp),
+            model = ImageRequest.Builder(context = LocalContext.current)
+                .data(image.url)
+                .crossfade(true)
+                .build(),
+            error = painterResource(id = R.drawable.icon_error),
+            placeholder = painterResource(id = R.drawable.icon_search),
+            contentDescription = "image",
+            contentScale = ContentScale.Crop
+        )
     }
 }
 
