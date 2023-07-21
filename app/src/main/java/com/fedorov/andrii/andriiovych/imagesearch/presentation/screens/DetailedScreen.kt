@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.MainViewModel
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.R
 
 @Composable

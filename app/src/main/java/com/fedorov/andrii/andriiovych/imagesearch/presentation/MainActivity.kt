@@ -13,8 +13,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.DetailedScreen
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.MainScreen
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.ImageSearchTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -3,9 +3,10 @@ package com.fedorov.andrii.andriiovych.imagesearch.data.repositories
 import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.NetworkRepository
 import com.fedorov.andrii.andriiovych.imagesearch.data.network.ImageService
+import javax.inject.Inject
 
 
-class NetworkRepositoryImpl(var imageService: ImageService) : NetworkRepository {
+class NetworkRepositoryImpl @Inject constructor(var imageService: ImageService) : NetworkRepository {
     override suspend fun getSearchImage(name: String): List<ImageModel> {
         var count = 0
         val firstList = imageService.imageSearch(name = name, page = "1")

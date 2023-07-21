@@ -1,5 +1,6 @@
-package com.fedorov.andrii.andriiovych.imagesearch.presentation
+package com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
@@ -12,12 +13,17 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.NetworkRepository
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.App
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(
-    var networkRepository: NetworkRepository = App.container.networkRepository,
-    private val context: App = App.context
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    var networkRepository: NetworkRepository,
+    @ApplicationContext val context: Context
 ) :
     ViewModel() {
 

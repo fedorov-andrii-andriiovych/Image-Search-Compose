@@ -1,4 +1,6 @@
 package com.fedorov.andrii.andriiovych.imagesearch.domain.usecases
 
-class ImageSearchUseCase {
+import javax.inject.Inject
+
+class ImageSearchUseCase @Inject constructor() {
 }

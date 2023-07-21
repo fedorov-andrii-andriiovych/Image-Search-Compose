@@ -1,17 +1,9 @@
 package com.fedorov.andrii.andriiovych.imagesearch.presentation
 
 import android.app.Application
-import com.fedorov.andrii.andriiovych.imagesearch.data.AppContainer
+import dagger.hilt.android.HiltAndroidApp
 
-class App : Application() {
-        companion object{
-            lateinit var container: AppContainer
-            lateinit var context: App
-        }
 
-    override fun onCreate() {
-        super.onCreate()
-        context = this
-        container = AppContainer()
-    }
-}
+@HiltAndroidApp
+class App : Application()
+
