@@ -6,16 +6,27 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ImageDao {
 
-    @Query("SELECT * FROM ImageModelEntity")
+    @Query("SELECT * FROM ImageEntity")
     fun getAll(): Flow<List<ImageEntity>>
 
-    @Update
-    fun update(imageEntity: ImageEntity)
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(imageEntity: ImageEntity)
 
-    @Insert
-    fun insert(imageEntity: ImageEntity)
+    @Query("SELECT COUNT(*) FROM ImageEntity WHERE url = :url")
+    suspend fun getImageCountByUrl(url: String): Int
+
+    @Transaction
+    suspend fun insertWithCheck(imageEntity: ImageEntity) {
+        val count = getImageCountByUrl(imageEntity.url)
+        if (count == 0) {
+            insert(imageEntity)
+        }
+    }
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(imageEntity: ImageEntity)
 
     @Delete
-    fun delete(imageEntity: ImageEntity)
+    suspend fun delete(imageEntity: ImageEntity)
 
 }

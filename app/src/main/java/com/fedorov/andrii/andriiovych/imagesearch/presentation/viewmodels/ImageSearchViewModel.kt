@@ -35,6 +35,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun saveImageToDatabase(imageModel: ImageModel) = viewModelScope.launch{
+        databaseUseCase.insert(imageModel = imageModel)
+    }
+
     fun saveImageToGallery(imageModel: ImageModel = imageModelState.value): Boolean {
       return imageSaveUseCase.saveImageToGallery(imageModel = imageModel)
     }

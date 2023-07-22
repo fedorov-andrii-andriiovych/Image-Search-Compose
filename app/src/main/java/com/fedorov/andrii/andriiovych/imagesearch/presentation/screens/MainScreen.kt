@@ -86,6 +86,9 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClick
                         ImageCard(image = image, onDetailedClicked = {
                             onDetailedClicked()
                             mainViewModel.imageId = index
+                        },
+                        onSaveClicked = {image->
+                            mainViewModel.saveImageToDatabase(imageModel = image)
                         })
                     }
                     CoroutineScope(Dispatchers.Main).launch {
@@ -100,7 +103,14 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClick
 }
 
 @Composable
-fun ImageCard(image: ImageModel, onDetailedClicked: (ImageModel) -> Unit) {
+fun ImageCard(
+    image: ImageModel,
+    onDetailedClicked: (ImageModel) -> Unit,
+    onSaveClicked: (ImageModel) -> Unit
+) {
+    val starState = remember {
+        mutableStateOf(false)
+    }
     Box(modifier = Modifier
         .size(150.dp)
         .clickable {
@@ -119,15 +129,18 @@ fun ImageCard(image: ImageModel, onDetailedClicked: (ImageModel) -> Unit) {
                 .build(),
             error = painterResource(id = R.drawable.icon_error),
             placeholder = painterResource(id = R.drawable.icon_search),
-            contentDescription = "image",
+            contentDescription = stringResource(id = R.string.image),
             contentScale = ContentScale.Crop
         )
 
         IconButton(onClick = {
-            //Todo
+            onSaveClicked(image)
+            starState.value = !starState.value
         }) {
             Icon(
-                painter = painterResource(id = R.drawable.icon_star_full),
+                painter =
+                if (!starState.value) painterResource(id = R.drawable.icon_star_empty)
+                else painterResource(id = R.drawable.icon_star_full),
                 contentDescription = stringResource(R.string.star_full),
                 tint = Color.Yellow
             )

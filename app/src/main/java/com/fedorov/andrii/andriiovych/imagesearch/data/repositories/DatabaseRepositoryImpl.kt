@@ -28,7 +28,7 @@ class DatabaseRepositoryImpl @Inject constructor(
 
     override suspend fun insert(imageModel: ImageModel) = withContext(dispatcher) {
         val model = imageModelToImageEntityMapper.mapFrom(from = imageModel)
-        return@withContext database.imageDao().insert(model)
+        return@withContext database.imageDao().insertWithCheck(model)
     }
 
     override suspend fun update(imageModel: ImageModel) = withContext(dispatcher) {

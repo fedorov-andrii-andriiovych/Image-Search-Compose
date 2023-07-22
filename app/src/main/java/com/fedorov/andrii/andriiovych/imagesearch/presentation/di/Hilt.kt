@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Room
 import com.fedorov.andrii.andriiovych.imagesearch.data.database.AppDatabase
 import com.fedorov.andrii.andriiovych.imagesearch.data.network.ImageService
+import com.fedorov.andrii.andriiovych.imagesearch.data.repositories.DatabaseRepositoryImpl
 import com.fedorov.andrii.andriiovych.imagesearch.data.repositories.ImageSaveRepositoryImpl
 import com.fedorov.andrii.andriiovych.imagesearch.data.repositories.NetworkRepositoryImpl
+import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.DatabaseRepository
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.ImageSaveRepository
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.NetworkRepository
 import dagger.Binds
@@ -30,6 +32,9 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindImageSaveRepository(ImageSaveRepositoryImpl: ImageSaveRepositoryImpl): ImageSaveRepository
+
+    @Binds
+    abstract fun bindDatabaseRepository(databaseRepositoryImpl: DatabaseRepositoryImpl): DatabaseRepository
 }
 
 @Module
