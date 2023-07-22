@@ -67,7 +67,7 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClick
                             )
                         }
                     },
-                    shape = RoundedCornerShape(50),
+                    shape = RoundedCornerShape(25),
                     colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                     keyboardActions = KeyboardActions {
