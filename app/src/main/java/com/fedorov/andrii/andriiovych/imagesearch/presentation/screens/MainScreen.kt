@@ -87,7 +87,7 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClick
                             onDetailedClicked()
                             mainViewModel.imageId = index
                         },
-                        onSaveClicked = {image->
+                        onStarClicked = { image->
                             mainViewModel.saveImageToDatabase(imageModel = image)
                         })
                     }
@@ -106,7 +106,7 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClick
 fun ImageCard(
     image: ImageModel,
     onDetailedClicked: (ImageModel) -> Unit,
-    onSaveClicked: (ImageModel) -> Unit
+    onStarClicked: (ImageModel) -> Unit
 ) {
     val starState = remember {
         mutableStateOf(false)
@@ -134,7 +134,7 @@ fun ImageCard(
         )
 
         IconButton(onClick = {
-            onSaveClicked(image)
+            onStarClicked(image)
             starState.value = !starState.value
         }) {
             Icon(

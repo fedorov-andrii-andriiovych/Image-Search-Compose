@@ -11,11 +11,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.BottomItem
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.BottomNavigation
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.FavoritesViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
 
 @Composable
 fun HomeScreen(onShareClicked:(String)->Unit) {
     val mainViewModel: MainViewModel = viewModel()
+    val favoritesViewModel:FavoritesViewModel = viewModel()
     val navController = rememberNavController()
     Scaffold(
         bottomBar = {
@@ -41,7 +43,7 @@ fun HomeScreen(onShareClicked:(String)->Unit) {
                     })
                 }
                 composable(BottomItem.SCREEN_FAVORITES){
-                   FavoritesScreen()
+                   FavoritesScreen(modifier = Modifier, favoritesViewModel = favoritesViewModel)
                 }
                 composable (BottomItem.SCREEN_SETTINGS){
                     SettingsScreen()
