@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
+import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.DatabaseUseCase
 import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.ImageSaveUseCase
 import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.ImageSearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val imageSaveUseCase: ImageSaveUseCase,
-    private val imageSearchUseCase: ImageSearchUseCase
+    private val imageSearchUseCase: ImageSearchUseCase,
+    private val databaseUseCase: DatabaseUseCase
 ) :
     ViewModel() {
 

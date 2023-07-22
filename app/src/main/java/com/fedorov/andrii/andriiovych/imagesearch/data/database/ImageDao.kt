@@ -7,15 +7,15 @@ import kotlinx.coroutines.flow.Flow
 interface ImageDao {
 
     @Query("SELECT * FROM ImageModelEntity")
-    fun getAll(): Flow<List<ImageModelEntity>>
+    fun getAll(): Flow<List<ImageEntity>>
 
     @Update
-    fun update(imageModelEntity: ImageModelEntity)
+    fun update(imageEntity: ImageEntity)
 
     @Insert
-    fun insert(imageModelEntity: ImageModelEntity)
+    fun insert(imageEntity: ImageEntity)
 
     @Delete
-    fun delete(imageModelEntity: ImageModelEntity)
+    fun delete(imageEntity: ImageEntity)
 
 }
