@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.BottomItem
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.BottomNavigation
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.Screens
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.FavoritesViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
 
@@ -25,16 +26,16 @@ fun HomeScreen(onShareClicked:(String)->Unit) {
         }
     ) {
         Box(Modifier.padding(bottom = it.calculateBottomPadding())){
-            NavHost(navController = navController, startDestination = BottomItem.SCREEN_MAIN) {
-                composable(BottomItem.SCREEN_MAIN) {
+            NavHost(navController = navController, startDestination = Screens.MAIN.route) {
+                composable(Screens.MAIN.route) {
                     MainScreen(
                         modifier = Modifier,
                         mainViewModel = mainViewModel,
                         onDetailedClicked = {
-                            navController.navigate(BottomItem.SCREEN_DETAILED)
+                            navController.navigate(Screens.DETAILED.route)
                         })
                 }
-                composable(BottomItem.SCREEN_DETAILED) {
+                composable(Screens.DETAILED.route) {
                     DetailedScreen(
                         modifier = Modifier,
                         mainViewModel = mainViewModel,
@@ -42,10 +43,10 @@ fun HomeScreen(onShareClicked:(String)->Unit) {
                         onShareClicked(url)
                     })
                 }
-                composable(BottomItem.SCREEN_FAVORITES){
+                composable(Screens.FAVORITE.route){
                    FavoritesScreen(modifier = Modifier, favoritesViewModel = favoritesViewModel)
                 }
-                composable (BottomItem.SCREEN_SETTINGS){
+                composable (Screens.SETTINGS.route){
                     SettingsScreen(favoritesViewModel)
                 }
             }

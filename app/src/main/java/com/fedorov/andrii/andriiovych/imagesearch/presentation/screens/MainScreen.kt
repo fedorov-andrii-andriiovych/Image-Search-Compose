@@ -48,7 +48,7 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClick
                         .fillMaxWidth()
                         .padding(8.dp),
                     value = mainViewModel.searchState.value,
-                    onValueChange = { mainViewModel.searchState.value = it },
+                    onValueChange = { value -> mainViewModel.searchState.value = value },
                     singleLine = true,
                     leadingIcon = {
                         IconButton(onClick = {
@@ -77,14 +77,16 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClick
                     contentPadding = PaddingValues(4.dp), state = state
                 ) {
                     itemsIndexed(mainViewModel.listImageStateModel.value) { index, image ->
-                        ImageCard(image = image, onDetailedClicked = {
-                            onDetailedClicked()
-                            mainViewModel.imageId = index
-                        },
-                        onStarClicked = { image->
-                            mainViewModel.saveImageToDatabase(imageModel = image)
-                        },
-                        initStar = false)
+                        ImageCard(
+                            image = image, onDetailedClicked = {
+                                onDetailedClicked()
+                                mainViewModel.imageId = index
+                            },
+                            onStarClicked = { imageModel ->
+                                mainViewModel.saveImageToDatabase(imageModel = imageModel)
+                            },
+                            initStar = false
+                        )
                     }
                     CoroutineScope(Dispatchers.Main).launch {
                         state.scrollToItem(mainViewModel.imageModelState.value.id)

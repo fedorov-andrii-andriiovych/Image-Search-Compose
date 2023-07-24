@@ -8,14 +8,14 @@ sealed class BottomItem(
     val iconId: Int,
     val route: String
 ) {
-    object Screen1 : BottomItem("Main", R.drawable.icon_home, SCREEN_MAIN)
-    object Screen2 : BottomItem("Favorites", R.drawable.icon_star_full, SCREEN_FAVORITES)
-    object Screen3 : BottomItem("Settings", R.drawable.icon_settings, SCREEN_SETTINGS)
+    object Screen1 : BottomItem("Main", R.drawable.icon_home, Screens.MAIN.route)
+    object Screen2 : BottomItem("Favorites", R.drawable.icon_star_full, Screens.FAVORITE.route)
+    object Screen3 : BottomItem("Settings", R.drawable.icon_settings, Screens.SETTINGS.route)
+}
 
-    companion object {
-        const val SCREEN_MAIN = "screenMain"
-        const val SCREEN_FAVORITES = "screenFavorites"
-        const val SCREEN_SETTINGS = "screenSettings"
-        const val SCREEN_DETAILED = "screenDetailed"
-    }
+enum class Screens(val route:String){
+    MAIN("screenMain"),
+    FAVORITE("screenFavorites"),
+    SETTINGS("screenSettings"),
+    DETAILED("screenDetailed")
 }
