@@ -9,4 +9,14 @@
     <string name="icon">icon</string>
     <string name="share_image">shareImage</string>
     <string name="favorites">Favorites</string>
+    <string name="settings">Settings</string>
+    <string name="arrow_forward">arrow_forward</string>
+    <string name="image_orientation">Image orientation</string>
+    <string name="image_settings">Image settings</string>
+    <string name="image_type">Image type</string>
+    <string name="image_category">Image category</string>
+    <string name="image_colors">Image colors</string>
+    <string name="image_order">Image order</string>
+    <string name="application_settings">Application settings</string>
+    <string name="about_app">About app</string>
 </resources>

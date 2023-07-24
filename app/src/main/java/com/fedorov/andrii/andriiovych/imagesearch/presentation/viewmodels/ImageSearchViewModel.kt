@@ -29,7 +29,7 @@ class MainViewModel @Inject constructor(
     var listImageStateModel = mutableStateOf<List<ImageModel>>(emptyList())
 
     fun searchImage(name: String) = viewModelScope.launch {
-        var listImage = imageSearchUseCase.searchImage(name)
+        val listImage = imageSearchUseCase.searchImage(name)
         if (listImage.isNotEmpty()) {
             listImageStateModel.value = listImage
         }

@@ -1,7 +1,6 @@
 package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -15,20 +14,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.R
-import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.ImageCard
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
+import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsBackground
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,7 +35,7 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClick
         Column(
             modifier = Modifier
                 .padding(it)
-                .background(Color.Black),
+                .background(SettingsBackground),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Box(
@@ -89,7 +83,8 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClick
                         },
                         onStarClicked = { image->
                             mainViewModel.saveImageToDatabase(imageModel = image)
-                        })
+                        },
+                        initStar = false)
                     }
                     CoroutineScope(Dispatchers.Main).launch {
                         state.scrollToItem(mainViewModel.imageModelState.value.id)
@@ -102,49 +97,5 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClick
     }
 }
 
-@Composable
-fun ImageCard(
-    image: ImageModel,
-    onDetailedClicked: (ImageModel) -> Unit,
-    onStarClicked: (ImageModel) -> Unit
-) {
-    val starState = remember {
-        mutableStateOf(false)
-    }
-    Box(modifier = Modifier
-        .size(150.dp)
-        .clickable {
-            onDetailedClicked(image)
-        }
-        .clip(RoundedCornerShape(25.dp)), contentAlignment = Alignment.TopEnd) {
 
-        AsyncImage(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
-                .padding(4.dp),
-            model = ImageRequest.Builder(context = LocalContext.current)
-                .data(image.url)
-                .crossfade(true)
-                .build(),
-            error = painterResource(id = R.drawable.icon_error),
-            placeholder = painterResource(id = R.drawable.icon_search),
-            contentDescription = stringResource(id = R.string.image),
-            contentScale = ContentScale.Crop
-        )
-
-        IconButton(onClick = {
-            onStarClicked(image)
-            starState.value = !starState.value
-        }) {
-            Icon(
-                painter =
-                if (!starState.value) painterResource(id = R.drawable.icon_star_empty)
-                else painterResource(id = R.drawable.icon_star_full),
-                contentDescription = stringResource(R.string.star_full),
-                tint = Color.Yellow
-            )
-        }
-    }
-}
 

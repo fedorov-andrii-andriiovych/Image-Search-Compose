@@ -46,7 +46,7 @@ fun HomeScreen(onShareClicked:(String)->Unit) {
                    FavoritesScreen(modifier = Modifier, favoritesViewModel = favoritesViewModel)
                 }
                 composable (BottomItem.SCREEN_SETTINGS){
-                    SettingsScreen()
+                    SettingsScreen(favoritesViewModel)
                 }
             }
 
