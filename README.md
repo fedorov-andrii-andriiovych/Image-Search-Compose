@@ -2,9 +2,11 @@
 
  ImageSearch is a user-friendly mobile application that offers an extensive collection of free-licensed images at your fingertips. With a simple and intuitive interface, this app allows you to effortlessly explore and download a vast array of pictures for various purposes, all legally available for personal and commercial use.
 
-<img src="https://github.com/fedorov-andrii-andriiovych/ImageSearch/assets/120781663/668ce4ee-16e7-4ae1-a9a2-f62c692d4340" alt="Alt Text" width="270" height="480">
 <img src="https://github.com/fedorov-andrii-andriiovych/ImageSearch/assets/120781663/54840d65-ce38-498b-a26c-30649c7cad9e" alt="Alt Text" width="270" height="480">
-<img src="https://github.com/fedorov-andrii-andriiovych/ImageSearch/assets/120781663/d8ca1f52-9400-4ba6-acd7-94d445f23aa3" alt="Alt Text" width="270" height="480">
+<img src="https://github.com/fedorov-andrii-andriiovych/ImageSearch/assets/120781663/cde46b69-d1b9-4517-bfd5-9e24f1d617d0" alt="Alt Text" width="270" height="480">
+<img src="https://github.com/fedorov-andrii-andriiovych/ImageSearch/assets/120781663/291c3722-a92c-419e-b294-67a0dc815604" alt="Alt Text" width="270" height="480">
+<img src="https://github.com/fedorov-andrii-andriiovych/ImageSearch/assets/120781663/5b19eaa5-abb2-4f9f-95b2-5f3a929f808a" alt="Alt Text" width="270" height="480">
+
 
 
 Key Features:
