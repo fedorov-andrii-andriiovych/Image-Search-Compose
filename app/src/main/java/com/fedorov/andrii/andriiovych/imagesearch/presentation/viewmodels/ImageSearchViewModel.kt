@@ -47,3 +47,12 @@ class MainViewModel @Inject constructor(
         private const val CAR = "car"
     }
 }
+
+sealed class ScreenState<out T> {
+    data class Success<out R>(val value: R) : ScreenState<R>()
+    data class Failure(
+        val message: String,
+    ) : ScreenState<Nothing>()
+
+    object Loading : ScreenState<Nothing>()
+}

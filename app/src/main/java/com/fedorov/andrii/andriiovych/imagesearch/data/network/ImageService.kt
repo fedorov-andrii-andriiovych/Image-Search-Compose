@@ -13,6 +13,6 @@ interface ImageService {
         @Query("lang") lang: String = "ru",
         @Query("per_page") sizePage: String = "200",
         @Query("page") page: String = "1",
-        @Query("orientation") orientation: String = "horizontal"
+        @Query("orientation") orientation: String = "vertical"
     ): ImageModelResponse
 }

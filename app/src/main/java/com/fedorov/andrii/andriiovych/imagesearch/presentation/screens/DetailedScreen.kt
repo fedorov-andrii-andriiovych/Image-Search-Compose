@@ -24,6 +24,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.R
+import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsBackground
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -33,7 +34,7 @@ fun DetailedScreen(
     onShareClicked: (String) -> Unit
 ) {
     val context = LocalContext.current
-    val pageState = rememberPagerState(initialPage = mainViewModel.imageId )
+    val pageState = rememberPagerState(initialPage = mainViewModel.imageId)
 
     Scaffold(topBar = {
         DetailedTopAppBar(
@@ -53,38 +54,31 @@ fun DetailedScreen(
         )
 
     }) {
-        Column(modifier = modifier.padding(it)) {
-            Box(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .background(Color.White)
-                    .height(1.dp)
-            )
-            Box(
-                modifier = modifier
-                    .weight(1f)
-                    .background(Color.Black),
-                contentAlignment = Alignment.TopCenter
-            ) {
-                        HorizontalPager(pageCount = mainViewModel.listImageStateModel.value.size,
-                            state = pageState,
-                            key = { index -> mainViewModel.listImageStateModel.value[index].id },
-                        ) { id ->
-                            mainViewModel.imageId = id
-                            AsyncImage(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight(),
-                                model = ImageRequest.Builder(context = LocalContext.current)
-                                    .data(mainViewModel.listImageStateModel.value[id].url)
-                                    .crossfade(true)
-                                    .build(),
-                                error = painterResource(id = R.drawable.icon_error),
-                                placeholder = painterResource(id = R.drawable.icon_search),
-                                contentDescription = stringResource(R.string.image),
-                                contentScale = ContentScale.None
-                            )
-                        }
+        Box(
+            modifier = Modifier
+                .padding(it)
+                .fillMaxSize()
+                .background(SettingsBackground),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            HorizontalPager(
+                pageCount = mainViewModel.listImageStateModel.value.size,
+                state = pageState,
+                key = { index -> mainViewModel.listImageStateModel.value[index].id },
+            ) { id ->
+                mainViewModel.imageId = id
+                AsyncImage(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    model = ImageRequest.Builder(context = LocalContext.current)
+                        .data(mainViewModel.listImageStateModel.value[id].url)
+                        .crossfade(true)
+                        .build(),
+                    error = painterResource(id = R.drawable.icon_error),
+                    placeholder = painterResource(id = R.drawable.icon_search),
+                    contentDescription = stringResource(R.string.image),
+                    contentScale = ContentScale.Crop
+                )
             }
         }
     }
