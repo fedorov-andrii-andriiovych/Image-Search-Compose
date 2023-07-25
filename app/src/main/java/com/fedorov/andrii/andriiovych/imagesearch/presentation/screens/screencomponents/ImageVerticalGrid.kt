@@ -11,22 +11,40 @@ import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 fun ImageVerticalGrid(
     modifier: Modifier,
     listImages: List<ImageModel>,
-    onDetailedClicked: (ImageModel) -> Unit,
-    onStarClicked: (ImageModel) -> Unit
+    onDetailedClicked: (Int) -> Unit,
+    onStarClicked: (ImageModel) -> Unit,
+    initStar:Boolean
 ) {
     val state = rememberLazyGridState()
     LazyVerticalGrid(
         modifier = modifier, columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(4.dp), state = state
     ) {
-        items(items = listImages,key = { image:ImageModel -> image.id}) { image:ImageModel ->
-            ImageCard(image = image, onDetailedClicked = {
-                onDetailedClicked(it)
-            },
-                onStarClicked = { image ->
-                    onStarClicked(image)
+
+        itemsIndexed(items = listImages) {index, image ->
+            ImageCard(
+                image = image,
+                onDetailedClicked = {
+                    onDetailedClicked(index)
                 },
-            initStar = true)
+                onStarClicked = { imageModel ->
+                    onStarClicked(imageModel)
+                },
+                initStar = initStar
+            )
         }
+
+//        items(items = listImages, key = { image: ImageModel -> image.id }) { image ->
+//            ImageCard(
+//                image = image,
+//                onDetailedClicked = {
+//                    onDetailedClicked(it)
+//                },
+//                onStarClicked = { imageModel ->
+//                    onStarClicked(imageModel)
+//                },
+//                initStar = initStar
+//            )
+//        }
     }
 }

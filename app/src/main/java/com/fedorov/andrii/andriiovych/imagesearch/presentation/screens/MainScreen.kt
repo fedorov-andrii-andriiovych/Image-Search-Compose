@@ -2,10 +2,6 @@ package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -20,17 +16,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.fedorov.andrii.andriiovych.imagesearch.R
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.ImageCard
+import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.ImageVerticalGrid
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.DetailParams
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsBackground
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClicked: () -> Unit) {
+fun MainScreen(
+    modifier: Modifier,
+    mainViewModel: MainViewModel,
+    onDetailedClicked: (DetailParams) -> Unit
+) {
     val controller = LocalSoftwareKeyboardController.current
+    val listImage = mainViewModel.listImageStateModel.collectAsState()
     Scaffold() {
         Column(
             modifier = Modifier
@@ -71,31 +71,24 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel, onDetailedClick
                 )
             }
             Box(modifier = modifier.weight(1f), contentAlignment = Alignment.Center) {
-                val state = rememberLazyGridState()
-                LazyVerticalGrid(
-                    modifier = modifier, columns = GridCells.Fixed(2),
-                    contentPadding = PaddingValues(4.dp), state = state
-                ) {
-                    itemsIndexed(mainViewModel.listImageStateModel.value) { index, image ->
-                        ImageCard(
-                            image = image, onDetailedClicked = {
-                                onDetailedClicked()
-                                mainViewModel.imageId = index
-                            },
-                            onStarClicked = { imageModel ->
-                                mainViewModel.saveImageToDatabase(imageModel = imageModel)
-                            },
-                            initStar = false
-                        )
-                    }
-                    CoroutineScope(Dispatchers.Main).launch {
-                        state.scrollToItem(mainViewModel.imageModelState.value.id)
-                    }
-                }
+
+                ImageVerticalGrid(
+                    modifier = Modifier,
+                    listImages = listImage.value,
+                    onDetailedClicked = { index ->
+                        onDetailedClicked(DetailParams(
+                            list = listImage.value,
+                            index = index,
+                            title = mainViewModel.searchState.value
+                        ))
+                    },
+                    onStarClicked = { imageModel ->
+                        mainViewModel.saveImageToDatabase(imageModel = imageModel)
+                    },
+                    initStar = false
+                )
             }
         }
-
-
     }
 }
 

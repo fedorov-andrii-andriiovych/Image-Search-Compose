@@ -19,4 +19,5 @@
     <string name="image_order">Image order</string>
     <string name="application_settings">Application settings</string>
     <string name="about_app">About app</string>
+    <string name="favorite">Favorite</string>
 </resources>

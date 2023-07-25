@@ -9,7 +9,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,34 +22,35 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.R
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.DetailedViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsBackground
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DetailedScreen(
     modifier: Modifier,
-    mainViewModel: MainViewModel,
-    onShareClicked: (String) -> Unit
+    detailedViewModel: DetailedViewModel,
+    onShareClicked: (String) -> Unit,
 ) {
     val context = LocalContext.current
-    val pageState = rememberPagerState(initialPage = mainViewModel.imageId)
+    val pageState = rememberPagerState(initialPage = detailedViewModel.imageId)
+    val listImage = detailedViewModel.listImageStateModel.collectAsState()
 
     Scaffold(topBar = {
         DetailedTopAppBar(
             modifier = modifier,
             onSaveClicked = {
-                val result = mainViewModel.saveImageToGallery()
+                val result = detailedViewModel.saveImageToGallery()
                 if (result) {
                     showToast(context, context.resources.getString(R.string.image_saved))
                 } else {
                     showToast(context, context.resources.getString(R.string.image_dont_saved))
                 }
             },
-            title = mainViewModel.searchState,
+            title = detailedViewModel.searchTitle,
             onShareClicked = {
-                onShareClicked(mainViewModel.listImageStateModel.value[mainViewModel.imageId].url)
+                onShareClicked(listImage.value[detailedViewModel.imageId].url)
             }
         )
 
@@ -62,16 +63,16 @@ fun DetailedScreen(
             contentAlignment = Alignment.TopCenter
         ) {
             HorizontalPager(
-                pageCount = mainViewModel.listImageStateModel.value.size,
+                pageCount = listImage.value.size,
                 state = pageState,
-                key = { index -> mainViewModel.listImageStateModel.value[index].id },
+                key = { index -> listImage.value[index].id },
             ) { id ->
-                mainViewModel.imageId = id
+                detailedViewModel.imageId = id
                 AsyncImage(
                     modifier = Modifier
                         .fillMaxSize(),
                     model = ImageRequest.Builder(context = LocalContext.current)
-                        .data(mainViewModel.listImageStateModel.value[id].url)
+                        .data(listImage.value[id].url)
                         .crossfade(true)
                         .build(),
                     error = painterResource(id = R.drawable.icon_error),
@@ -87,14 +88,14 @@ fun DetailedScreen(
 @Composable
 fun DetailedTopAppBar(
     modifier: Modifier,
-    title: State<String>,
+    title: String,
     onSaveClicked: () -> Unit,
     onShareClicked: () -> Unit
 ) {
     TopAppBar(
         title = {
             Text(
-                text = title.value.capitalize(),
+                text = title.capitalize(),
                 fontSize = 24.sp, color = Color.White,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
