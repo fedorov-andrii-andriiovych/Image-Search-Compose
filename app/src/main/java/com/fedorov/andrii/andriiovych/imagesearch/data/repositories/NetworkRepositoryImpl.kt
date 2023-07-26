@@ -13,21 +13,11 @@ class NetworkRepositoryImpl @Inject constructor(
     private val imageService: ImageService,
     @IoDispatcher val dispatcher: CoroutineDispatcher
 ) : NetworkRepository {
-    override suspend fun searchImage(name: String): List<ImageModel> = withContext(dispatcher){
-        var count = 0
-        val firstList = imageService.imageSearch(name = name, page = "1")
-        val list1 = firstList.hits.map { ImageModel(url = it.largeImageURL, count++) }
-        var list2 = listOf<ImageModel>()
-        var list3 = listOf<ImageModel>()
-        if (firstList.totalHits > 200) {
-            val secondList = imageService.imageSearch(name = name, page = "2")
-            list2 = secondList.hits.map { ImageModel(url = it.largeImageURL, count++) }
+    override suspend fun searchImage(name: String): List<ImageModel> = withContext(dispatcher) {
+        return@withContext imageService.imageSearch(name = name, page = "1").hits.map {
+            ImageModel(
+                url = it.largeImageURL
+            )
         }
-        if (firstList.totalHits > 400) {
-            val thirdList = imageService.imageSearch(name = name, page = "3")
-            list3 = thirdList.hits.map { ImageModel(url = it.largeImageURL, count++) }
-        }
-
-        return@withContext list1 + list2 + list3
     }
 }

@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.fedorov.andrii.andriiovych.imagesearch.R
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.navigationparams.DetailParams
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.DetailedViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsBackground
 
@@ -32,7 +33,9 @@ fun DetailedScreen(
     modifier: Modifier,
     detailedViewModel: DetailedViewModel,
     onShareClicked: (String) -> Unit,
+    detailParams: DetailParams
 ) {
+    detailedViewModel.initParams(detailParams = detailParams)
     val context = LocalContext.current
     val pageState = rememberPagerState(initialPage = detailedViewModel.imageId)
     val listImage = detailedViewModel.listImageStateModel.collectAsState()
@@ -65,7 +68,7 @@ fun DetailedScreen(
             HorizontalPager(
                 pageCount = listImage.value.size,
                 state = pageState,
-                key = { index -> listImage.value[index].id },
+                // key = { index -> listImage.value[index].id },
             ) { id ->
                 detailedViewModel.imageId = id
                 AsyncImage(

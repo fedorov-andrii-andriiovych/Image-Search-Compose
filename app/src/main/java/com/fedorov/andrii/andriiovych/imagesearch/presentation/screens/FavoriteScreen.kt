@@ -8,25 +8,23 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.fedorov.andrii.andriiovych.imagesearch.R
-import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.navigationparams.DetailParams
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.ImageVerticalGrid
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.MainTopAppBar
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.DetailParams
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.FavoritesViewModel
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.FavoriteViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsBackground
 
 @Composable
-fun FavoritesScreen(
+fun FavoriteScreen(
     modifier: Modifier,
-    favoritesViewModel: FavoritesViewModel,
+    favoriteViewModel: FavoriteViewModel,
     onDetailedClicked: (DetailParams) -> Unit
 ) {
     val context = LocalContext.current
-    val listImage = favoritesViewModel.stateFavoriteList.collectAsState(initial = emptyList())
+    val listImage = favoriteViewModel.stateFavoriteList.collectAsState(initial = emptyList())
 
     Scaffold(topBar = {
         MainTopAppBar(title = stringResource(R.string.favorites))
@@ -43,14 +41,16 @@ fun FavoritesScreen(
                 modifier = Modifier,
                 listImages = listImage.value,
                 onDetailedClicked = { index ->
-                    onDetailedClicked(DetailParams(
-                        list = listImage.value,
-                        index = index,
-                        title = context.resources.getString(R.string.favorites)
-                    ))
+                    onDetailedClicked(
+                        DetailParams(
+                            list = listImage.value,
+                            index = index,
+                            title = context.resources.getString(R.string.favorites)
+                        )
+                    )
                 },
                 onStarClicked = { model ->
-                    favoritesViewModel.deleteImage(imageModel = model)
+                    favoriteViewModel.deleteImage(imageModel = model)
                 },
                 initStar = true
             )

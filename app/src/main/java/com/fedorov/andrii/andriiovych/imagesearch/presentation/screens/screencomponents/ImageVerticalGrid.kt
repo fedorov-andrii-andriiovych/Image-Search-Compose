@@ -1,7 +1,10 @@
 package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.lazy.grid.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -13,7 +16,7 @@ fun ImageVerticalGrid(
     listImages: List<ImageModel>,
     onDetailedClicked: (Int) -> Unit,
     onStarClicked: (ImageModel) -> Unit,
-    initStar:Boolean
+    initStar: Boolean
 ) {
     val state = rememberLazyGridState()
     LazyVerticalGrid(
@@ -21,7 +24,8 @@ fun ImageVerticalGrid(
         contentPadding = PaddingValues(4.dp), state = state
     ) {
 
-        itemsIndexed(items = listImages) {index, image ->
+        itemsIndexed(items = listImages) { index, image ->
+
             ImageCard(
                 image = image,
                 onDetailedClicked = {
@@ -33,18 +37,5 @@ fun ImageVerticalGrid(
                 initStar = initStar
             )
         }
-
-//        items(items = listImages, key = { image: ImageModel -> image.id }) { image ->
-//            ImageCard(
-//                image = image,
-//                onDetailedClicked = {
-//                    onDetailedClicked(it)
-//                },
-//                onStarClicked = { imageModel ->
-//                    onStarClicked(imageModel)
-//                },
-//                initStar = initStar
-//            )
-//        }
     }
 }

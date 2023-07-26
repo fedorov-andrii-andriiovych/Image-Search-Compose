@@ -3,6 +3,7 @@ package com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.ImageSaveUseCase
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.navigationparams.DetailParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -30,8 +31,3 @@ class DetailedViewModel @Inject constructor(
     }
 }
 
-data class DetailParams(
-    val list: List<ImageModel> = emptyList(),
-    val index: Int = 0,
-    val title: String = ""
-)

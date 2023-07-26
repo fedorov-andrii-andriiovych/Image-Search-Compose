@@ -16,9 +16,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.fedorov.andrii.andriiovych.imagesearch.R
-import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.navigationparams.DetailParams
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.ImageVerticalGrid
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.DetailParams
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsBackground
 
@@ -76,11 +75,13 @@ fun MainScreen(
                     modifier = Modifier,
                     listImages = listImage.value,
                     onDetailedClicked = { index ->
-                        onDetailedClicked(DetailParams(
-                            list = listImage.value,
-                            index = index,
-                            title = mainViewModel.searchState.value
-                        ))
+                        onDetailedClicked(
+                            DetailParams(
+                                list = listImage.value,
+                                index = index,
+                                title = mainViewModel.searchState.value
+                            )
+                        )
                     },
                     onStarClicked = { imageModel ->
                         mainViewModel.saveImageToDatabase(imageModel = imageModel)

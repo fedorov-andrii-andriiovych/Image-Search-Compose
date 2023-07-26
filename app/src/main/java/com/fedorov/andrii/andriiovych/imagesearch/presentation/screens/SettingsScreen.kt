@@ -16,11 +16,11 @@ import com.fedorov.andrii.andriiovych.imagesearch.R
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.MainTopAppBar
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.SettingsClickableItem
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.SettingsGroup
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.FavoritesViewModel
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.FavoriteViewModel
 
 
 @Composable
-fun SettingsScreen(settingsViewModel: FavoritesViewModel) {
+fun SettingsScreen(settingsViewModel: FavoriteViewModel) {
     Scaffold(
         topBar = {
             MainTopAppBar(title = stringResource(R.string.settings))
