@@ -99,7 +99,9 @@ fun MainScreen(
             }
         }
         is ScreenState.Error -> {}
-        is ScreenState.Loading -> {}
+        is ScreenState.Loading -> {
+            LoadingScreen()
+        }
     }
 
 }
