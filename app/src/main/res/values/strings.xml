@@ -20,4 +20,6 @@
     <string name="application_settings">Application settings</string>
     <string name="about_app">About app</string>
     <string name="favorite">Favorite</string>
+    <string name="retry">Retry</string>
+    <string name="something_went_wrong">Something went wrong, please reload the page</string>
 </resources>

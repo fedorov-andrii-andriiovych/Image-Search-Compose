@@ -21,7 +21,7 @@ class MainViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    val editFieldState = mutableStateOf("")
+    val editFieldState = mutableStateOf(" ")
 
     private val searchState = MutableStateFlow("")
 
@@ -30,7 +30,10 @@ class MainViewModel @Inject constructor(
             imageSearchUseCase
                 .searchImage(searchString)
                 .map<List<ImageModel>, ScreenState<ImageModel>>(::Success)
-                .catch { emit(ScreenState.Error(it)) }
+                .catch {
+                    searchState.emit("")
+                    emit(ScreenState.Error(it))
+                }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ScreenState.Loading)
 
