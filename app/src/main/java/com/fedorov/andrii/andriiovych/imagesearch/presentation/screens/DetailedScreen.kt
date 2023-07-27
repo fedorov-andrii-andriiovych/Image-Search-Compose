@@ -20,18 +20,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.fedorov.andrii.andriiovych.imagesearch.R
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.navigationparams.DetailParams
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.DetailedViewModel
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsBackground
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DetailedScreen(
     modifier: Modifier,
-    detailedViewModel: DetailedViewModel,
+    detailedViewModel: DetailedViewModel = hiltViewModel(),
     onShareClicked: (String) -> Unit,
     detailParams: DetailParams
 ) {

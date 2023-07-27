@@ -32,16 +32,14 @@ fun HomeScreen(onShareClicked: (String) -> Unit) {
                 composable(Screens.MAIN.route) {
                     MainScreen(
                         modifier = Modifier,
-                        mainViewModel = hiltViewModel<MainViewModel>(),
                         onDetailedClicked = { detailParams ->
-                            navController.navigate(Screens.DETAILED.route,detailParams.toBundle())
+                            navController.navigate(Screens.DETAILED.route, detailParams.toBundle())
                         })
                 }
-                composable(Screens.DETAILED.route) {host->
+                composable(Screens.DETAILED.route) { host ->
                     val detailParams = host.arguments?.toDetailParams()!!
                     DetailedScreen(
                         modifier = Modifier,
-                        detailedViewModel = hiltViewModel<DetailedViewModel>(),
                         onShareClicked = { url -> onShareClicked(url) },
                         detailParams = detailParams
                     )
@@ -49,13 +47,12 @@ fun HomeScreen(onShareClicked: (String) -> Unit) {
                 composable(Screens.FAVORITE.route) {
                     FavoriteScreen(
                         modifier = Modifier,
-                        favoriteViewModel = hiltViewModel<FavoriteViewModel>(),
                         onDetailedClicked = { detailParams ->
-                            navController.navigate(Screens.DETAILED.route,detailParams.toBundle())
+                            navController.navigate(Screens.DETAILED.route, detailParams.toBundle())
                         })
                 }
                 composable(Screens.SETTINGS.route) {
-                    SettingsScreen(settingsViewModel = hiltViewModel<FavoriteViewModel>())
+                    SettingsScreen()
                 }
             }
         }

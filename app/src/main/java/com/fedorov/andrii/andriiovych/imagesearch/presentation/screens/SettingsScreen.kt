@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.R
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.MainTopAppBar
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.SettingsClickableItem
@@ -20,7 +21,7 @@ import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.Favori
 
 
 @Composable
-fun SettingsScreen(settingsViewModel: FavoriteViewModel) {
+fun SettingsScreen(settingsViewModel: FavoriteViewModel = hiltViewModel()) {
     Scaffold(
         topBar = {
             MainTopAppBar(title = stringResource(R.string.settings))

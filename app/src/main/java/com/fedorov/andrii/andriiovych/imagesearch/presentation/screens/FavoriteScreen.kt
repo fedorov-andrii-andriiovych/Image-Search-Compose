@@ -10,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.R
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.navigationparams.DetailParams
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.ImageVerticalGrid
@@ -20,7 +21,7 @@ import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsBackground
 @Composable
 fun FavoriteScreen(
     modifier: Modifier,
-    favoriteViewModel: FavoriteViewModel,
+    favoriteViewModel: FavoriteViewModel = hiltViewModel(),
     onDetailedClicked: (DetailParams) -> Unit
 ) {
     val context = LocalContext.current

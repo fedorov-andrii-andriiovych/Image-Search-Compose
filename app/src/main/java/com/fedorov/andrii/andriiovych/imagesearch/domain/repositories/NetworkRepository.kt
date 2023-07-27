@@ -1,7 +1,8 @@
 package com.fedorov.andrii.andriiovych.imagesearch.domain.repositories
 
 import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
+import kotlinx.coroutines.flow.Flow
 
 interface NetworkRepository {
-    suspend fun searchImage(name: String): List<ImageModel>
+    fun searchImage(name: String): Flow<List<ImageModel>>
 }

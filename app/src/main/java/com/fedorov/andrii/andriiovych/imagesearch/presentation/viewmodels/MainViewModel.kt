@@ -6,11 +6,14 @@ import androidx.lifecycle.viewModelScope
 import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.DatabaseUseCase
 import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.ImageSearchUseCase
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.ScreenState.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val imageSearchUseCase: ImageSearchUseCase,
@@ -18,33 +21,31 @@ class MainViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    init {
-        searchImage(CAR)
-    }
+    val editFieldState = mutableStateOf("")
 
-    var searchState = mutableStateOf(CAR)
-    var listImageStateModel = MutableStateFlow<List<ImageModel>>(emptyList())
+    private val searchState = MutableStateFlow("")
 
-    fun searchImage(name: String) = viewModelScope.launch {
-        val listImage = imageSearchUseCase.searchImage(name)
-        if (listImage.isNotEmpty()) {
-            listImageStateModel.value = listImage
+    val screenState: StateFlow<ScreenState<ImageModel>> = searchState
+        .flatMapLatest { searchString ->
+            imageSearchUseCase
+                .searchImage(searchString)
+                .map<List<ImageModel>, ScreenState<ImageModel>>(::Success)
+                .catch { emit(ScreenState.Error(it)) }
         }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ScreenState.Loading)
+
+     fun searchImage() = viewModelScope.launch {
+        searchState.emit(editFieldState.value)
     }
 
-    fun saveImageToDatabase(imageModel: ImageModel) = viewModelScope.launch{
+    fun saveImageToDatabase(imageModel: ImageModel) = viewModelScope.launch {
         databaseUseCase.insert(imageModel = imageModel)
     }
 
-    companion object{
-        private const val CAR = "car"
-    }
 }
 
-sealed class ScreenState<out T> {
-    data class Success<out R>(val value: R) : ScreenState<R>()
-    data class Failure(
-        val message: String,
-    ) : ScreenState<Nothing>()
-    object Loading : ScreenState<Nothing>()
+sealed interface ScreenState<out T> {
+    object Loading : ScreenState<Nothing>
+    data class Error(val throwable: Throwable) : ScreenState<Nothing>
+    data class Success<out R>(val value: List<R>) : ScreenState<R>
 }
