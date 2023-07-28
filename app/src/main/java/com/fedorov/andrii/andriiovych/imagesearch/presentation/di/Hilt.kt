@@ -44,7 +44,7 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideImageService(): ImageService {
-        val baseUrl = "https://pixabay.com/"
+        val baseUrl = "https://api.pexels.com/v1/"
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())

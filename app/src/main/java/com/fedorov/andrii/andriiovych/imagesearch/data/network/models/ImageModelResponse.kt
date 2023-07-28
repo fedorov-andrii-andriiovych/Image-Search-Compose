@@ -4,81 +4,81 @@ import com.google.gson.annotations.SerializedName
 
 data class ImageModelResponse(
 
-	@field:SerializedName("hits")
-	val hits: List<HitsItem>,
+	@field:SerializedName("next_page")
+	val nextPage: String,
 
-	@field:SerializedName("total")
-	val total: Int,
+	@field:SerializedName("per_page")
+	val perPage: Int,
 
-	@field:SerializedName("totalHits")
-	val totalHits: Int
+	@field:SerializedName("page")
+	val page: Int,
+
+	@field:SerializedName("photos")
+	val photos: List<PhotosItem>,
+
+	@field:SerializedName("total_results")
+	val totalResults: Int
 )
 
-data class HitsItem(
+data class PhotosItemSize(
 
-	@field:SerializedName("webformatHeight")
-	val webformatHeight: Int,
+	@field:SerializedName("small")
+	val small: String,
 
-	@field:SerializedName("imageWidth")
-	val imageWidth: Int,
+	@field:SerializedName("original")
+	val original: String,
 
-	@field:SerializedName("previewHeight")
-	val previewHeight: Int,
+	@field:SerializedName("large")
+	val large: String,
 
-	@field:SerializedName("webformatURL")
-	val webformatURL: String,
+	@field:SerializedName("tiny")
+	val tiny: String,
 
-	@field:SerializedName("userImageURL")
-	val userImageURL: String,
+	@field:SerializedName("medium")
+	val medium: String,
 
-	@field:SerializedName("previewURL")
-	val previewURL: String,
+	@field:SerializedName("large2x")
+	val large2x: String,
 
-	@field:SerializedName("comments")
-	val comments: Int,
+	@field:SerializedName("portrait")
+	val portrait: String,
 
-	@field:SerializedName("type")
-	val type: String,
+	@field:SerializedName("landscape")
+	val landscape: String
+)
 
-	@field:SerializedName("imageHeight")
-	val imageHeight: Int,
+data class PhotosItem(
 
-	@field:SerializedName("tags")
-	val tags: String,
+	@field:SerializedName("src")
+	val photosItemSize: PhotosItemSize,
 
-	@field:SerializedName("previewWidth")
-	val previewWidth: Int,
+	@field:SerializedName("width")
+	val width: Int,
 
-	@field:SerializedName("downloads")
-	val downloads: Int,
+	@field:SerializedName("avg_color")
+	val avgColor: String,
 
-	@field:SerializedName("collections")
-	val collections: Int,
+	@field:SerializedName("alt")
+	val alt: String,
 
-	@field:SerializedName("user_id")
-	val userId: Int,
+	@field:SerializedName("photographer")
+	val photographer: String,
 
-	@field:SerializedName("largeImageURL")
-	val largeImageURL: String,
-
-	@field:SerializedName("pageURL")
-	val pageURL: String,
+	@field:SerializedName("photographer_url")
+	val photographerUrl: String,
 
 	@field:SerializedName("id")
 	val id: Int,
 
-	@field:SerializedName("imageSize")
-	val imageSize: Int,
+	@field:SerializedName("url")
+	val url: String,
 
-	@field:SerializedName("webformatWidth")
-	val webformatWidth: Int,
+	@field:SerializedName("photographer_id")
+	val photographerId: Int,
 
-	@field:SerializedName("user")
-	val user: String,
+	@field:SerializedName("liked")
+	val liked: Boolean,
 
-	@field:SerializedName("views")
-	val views: Int,
-
-	@field:SerializedName("likes")
-	val likes: Int
+	@field:SerializedName("height")
+	val height: Int
 )
