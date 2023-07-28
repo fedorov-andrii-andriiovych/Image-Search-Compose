@@ -20,10 +20,13 @@ import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencom
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.settingscomponents.DialogParams
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.settingscomponents.SettingsListDialog
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.FavoriteViewModel
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.Settings
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.SettingsViewModel
 
 
 @Composable
-fun SettingsScreen(settingsViewModel: FavoriteViewModel = hiltViewModel()) {
+fun SettingsScreen(settingsViewModel: SettingsViewModel = hiltViewModel()) {
+    val screenOrientation = settingsViewModel.screenStateOrientation.collectAsState()
     var dialogParams by remember {
         mutableStateOf(DialogParams())
     }
@@ -32,7 +35,8 @@ fun SettingsScreen(settingsViewModel: FavoriteViewModel = hiltViewModel()) {
     if (showDialog) {
         SettingsListDialog(
             dialogParams = dialogParams,
-            onItemClicked = {
+            onItemClicked = { value, type ->
+                settingsViewModel.saveSettings(value = value, type = type)
                 showDialog = false
             }, onDismissClicked = {
                 showDialog = false
@@ -60,7 +64,8 @@ fun SettingsScreen(settingsViewModel: FavoriteViewModel = hiltViewModel()) {
                 ) {
                     dialogParams = DialogParams(
                         title = "Orientation",
-                        listSettings = listOf("Landscape", "Portrait", "Square")
+                        listSettings = listOf("Landscape", "Portrait", "Square"),
+                        Settings.Orientation
                     )
                     showDialog = true
                 }

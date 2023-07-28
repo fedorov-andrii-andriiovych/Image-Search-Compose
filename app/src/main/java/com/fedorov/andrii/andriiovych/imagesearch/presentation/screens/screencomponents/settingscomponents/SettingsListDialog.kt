@@ -19,13 +19,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.Settings
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.DividerBackground
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsBackground
 
 @Composable
 fun SettingsListDialog(
     dialogParams: DialogParams,
-    onItemClicked: (String) -> Unit,
+    onItemClicked: (String,Settings) -> Unit,
     onDismissClicked: () -> Unit
 ) {
     AlertDialog(
@@ -56,7 +57,7 @@ fun SettingsListDialog(
                 items(dialogParams.listSettings) { item ->
                     SettingsItem(name = item,
                         onItemClicked = { name ->
-                            onItemClicked(name)
+                            onItemClicked(name,dialogParams.type)
                         })
                 }
 

@@ -7,9 +7,11 @@ import com.fedorov.andrii.andriiovych.imagesearch.data.network.ImageService
 import com.fedorov.andrii.andriiovych.imagesearch.data.repositories.DatabaseRepositoryImpl
 import com.fedorov.andrii.andriiovych.imagesearch.data.repositories.ImageSaveRepositoryImpl
 import com.fedorov.andrii.andriiovych.imagesearch.data.repositories.NetworkRepositoryImpl
+import com.fedorov.andrii.andriiovych.imagesearch.data.repositories.SettingsPrefRepositoryImpl
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.DatabaseRepository
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.ImageSaveRepository
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.NetworkRepository
+import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.SettingsPrefRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -35,6 +37,9 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindDatabaseRepository(databaseRepositoryImpl: DatabaseRepositoryImpl): DatabaseRepository
+
+    @Binds
+    abstract fun bindSettingsPrefRepository(settingsPrefRepositoryImpl: SettingsPrefRepositoryImpl): SettingsPrefRepository
 }
 
 @Module
