@@ -1,4 +1,4 @@
-package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents
+package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.settingscomponents
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*

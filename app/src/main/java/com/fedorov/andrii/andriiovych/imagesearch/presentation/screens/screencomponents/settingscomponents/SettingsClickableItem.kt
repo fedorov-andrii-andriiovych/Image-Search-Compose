@@ -1,4 +1,4 @@
-package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents
+package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.settingscomponents
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -15,9 +15,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.fedorov.andrii.andriiovych.imagesearch.R
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.DividerBackground
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsBackground
+import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsSecondColor
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -25,6 +27,7 @@ fun SettingsClickableItem(
     @DrawableRes icon: Int,
     @StringRes iconDesc: Int,
     @StringRes name: Int,
+    description: String,
     onClick: () -> Unit
 ) {
     Surface(
@@ -44,18 +47,25 @@ fun SettingsClickableItem(
                         painterResource(id = icon),
                         contentDescription = stringResource(id = iconDesc),
                         modifier = Modifier
-                            .size(24.dp),
+                            .size(32.dp),
                         tint = Color.White
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = stringResource(id = name),
-                        modifier = Modifier
-                            .padding(16.dp),
-                        textAlign = TextAlign.Start,
-                        overflow = TextOverflow.Ellipsis,
-                        color = Color.White
-                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Column() {
+                        Text(
+                            text = stringResource(id = name),
+                            textAlign = TextAlign.Start,
+                            overflow = TextOverflow.Ellipsis,
+                            color = Color.White
+                        )
+                        Text(
+                            text = description,
+                            color = SettingsSecondColor,
+                            fontSize = 14.sp,
+                            modifier = Modifier
+                                .padding(bottom = 4.dp)
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.weight(1.0f))
                 Icon(

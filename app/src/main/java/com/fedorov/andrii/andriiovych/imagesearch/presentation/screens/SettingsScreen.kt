@@ -15,11 +15,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.R
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.MainTopAppBar
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.SettingsClickableItem
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.SettingsGroup
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.settingscomponents.SettingsClickableItem
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.settingscomponents.SettingsGroup
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.settingscomponents.DialogParams
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.settingscomponents.SettingsListDialog
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.FavoriteViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.Settings
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.SettingsViewModel
 
@@ -60,7 +59,8 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel = hiltViewModel()) {
                 SettingsClickableItem(
                     icon = R.drawable.icon_image_orientation,
                     iconDesc = R.string.image_orientation,
-                    name = R.string.image_orientation
+                    name = R.string.image_orientation,
+                    description = screenOrientation.value
                 ) {
                     dialogParams = DialogParams(
                         title = "Orientation",
@@ -72,28 +72,32 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel = hiltViewModel()) {
                 SettingsClickableItem(
                     icon = R.drawable.icon_image_type,
                     iconDesc = R.string.image_type,
-                    name = R.string.image_type
+                    name = R.string.image_type,
+                    description = screenOrientation.value
                 ) {
                     //Todo
                 }
                 SettingsClickableItem(
                     icon = R.drawable.icon_image_category,
                     iconDesc = R.string.image_category,
-                    name = R.string.image_category
+                    name = R.string.image_category,
+                    description = screenOrientation.value
                 ) {
                     //Todo
                 }
                 SettingsClickableItem(
                     icon = R.drawable.icon_image_colors,
                     iconDesc = R.string.image_colors,
-                    name = R.string.image_colors
+                    name = R.string.image_colors,
+                    description = screenOrientation.value
                 ) {
                     //Todo
                 }
                 SettingsClickableItem(
                     icon = R.drawable.icon_image_order,
                     iconDesc = R.string.image_order,
-                    name = R.string.image_order
+                    name = R.string.image_order,
+                    description = screenOrientation.value
                 ) {
                     //Todo
                 }
@@ -103,7 +107,8 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel = hiltViewModel()) {
                 SettingsClickableItem(
                     icon = R.drawable.icon_about_app,
                     iconDesc = R.string.about_app,
-                    name = R.string.about_app
+                    name = R.string.about_app,
+                    description = screenOrientation.value
                 ) {
                     //Todo
                 }
