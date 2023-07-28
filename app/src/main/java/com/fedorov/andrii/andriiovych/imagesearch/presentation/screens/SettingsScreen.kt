@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -17,11 +17,28 @@ import com.fedorov.andrii.andriiovych.imagesearch.R
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.MainTopAppBar
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.SettingsClickableItem
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.SettingsGroup
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.settingscomponents.DialogParams
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.settingscomponents.SettingsListDialog
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.FavoriteViewModel
 
 
 @Composable
 fun SettingsScreen(settingsViewModel: FavoriteViewModel = hiltViewModel()) {
+    var dialogParams by remember {
+        mutableStateOf(DialogParams())
+    }
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        SettingsListDialog(
+            dialogParams = dialogParams,
+            onItemClicked = {
+                showDialog = false
+            }, onDismissClicked = {
+                showDialog = false
+            })
+    }
+
     Scaffold(
         topBar = {
             MainTopAppBar(title = stringResource(R.string.settings))
@@ -40,35 +57,39 @@ fun SettingsScreen(settingsViewModel: FavoriteViewModel = hiltViewModel()) {
                     icon = R.drawable.icon_image_orientation,
                     iconDesc = R.string.image_orientation,
                     name = R.string.image_orientation
-                ){
-                    //Todo
+                ) {
+                    dialogParams = DialogParams(
+                        title = "Orientation",
+                        listSettings = listOf("Landscape", "Portrait", "Square")
+                    )
+                    showDialog = true
                 }
                 SettingsClickableItem(
                     icon = R.drawable.icon_image_type,
                     iconDesc = R.string.image_type,
                     name = R.string.image_type
-                ){
+                ) {
                     //Todo
                 }
                 SettingsClickableItem(
                     icon = R.drawable.icon_image_category,
                     iconDesc = R.string.image_category,
                     name = R.string.image_category
-                ){
+                ) {
                     //Todo
                 }
                 SettingsClickableItem(
                     icon = R.drawable.icon_image_colors,
                     iconDesc = R.string.image_colors,
                     name = R.string.image_colors
-                ){
+                ) {
                     //Todo
                 }
                 SettingsClickableItem(
                     icon = R.drawable.icon_image_order,
                     iconDesc = R.string.image_order,
                     name = R.string.image_order
-                ){
+                ) {
                     //Todo
                 }
             }
@@ -78,7 +99,7 @@ fun SettingsScreen(settingsViewModel: FavoriteViewModel = hiltViewModel()) {
                     icon = R.drawable.icon_about_app,
                     iconDesc = R.string.about_app,
                     name = R.string.about_app
-                ){
+                ) {
                     //Todo
                 }
             }
