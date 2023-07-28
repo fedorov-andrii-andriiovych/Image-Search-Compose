@@ -13,9 +13,9 @@
     <string name="arrow_forward">arrow_forward</string>
     <string name="image_orientation">Image orientation</string>
     <string name="image_settings">Image settings</string>
-    <string name="image_type">Image type</string>
+    <string name="image_size">Image size</string>
     <string name="image_category">Image category</string>
-    <string name="image_colors">Image colors</string>
+    <string name="image_color">Image color</string>
     <string name="image_order">Image order</string>
     <string name="application_settings">Application settings</string>
     <string name="about_app">About app</string>

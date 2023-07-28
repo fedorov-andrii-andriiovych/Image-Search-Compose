@@ -25,7 +25,9 @@ import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.Settin
 
 @Composable
 fun SettingsScreen(settingsViewModel: SettingsViewModel = hiltViewModel()) {
-    val screenOrientation = settingsViewModel.screenStateOrientation.collectAsState()
+    val imageOrientation = settingsViewModel.imageStateOrientation.collectAsState()
+    val imageColor = settingsViewModel.imageStateColor.collectAsState()
+    val imageSize = settingsViewModel.imageStateSize.collectAsState()
     var dialogParams by remember {
         mutableStateOf(DialogParams())
     }
@@ -60,7 +62,7 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel = hiltViewModel()) {
                     icon = R.drawable.icon_image_orientation,
                     iconDesc = R.string.image_orientation,
                     name = R.string.image_orientation,
-                    description = screenOrientation.value
+                    description = imageOrientation.value
                 ) {
                     dialogParams = DialogParams(
                         title = "Orientation",
@@ -71,35 +73,29 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel = hiltViewModel()) {
                 }
                 SettingsClickableItem(
                     icon = R.drawable.icon_image_type,
-                    iconDesc = R.string.image_type,
-                    name = R.string.image_type,
-                    description = screenOrientation.value
+                    iconDesc = R.string.image_size,
+                    name = R.string.image_size,
+                    description = imageSize.value
                 ) {
-                    //Todo
-                }
-                SettingsClickableItem(
-                    icon = R.drawable.icon_image_category,
-                    iconDesc = R.string.image_category,
-                    name = R.string.image_category,
-                    description = screenOrientation.value
-                ) {
-                    //Todo
+                    dialogParams = DialogParams(
+                        title = "Size",
+                        listSettings = listOf("Small", "Medium", "Large"),
+                        Settings.Size
+                    )
+                    showDialog = true
                 }
                 SettingsClickableItem(
                     icon = R.drawable.icon_image_colors,
-                    iconDesc = R.string.image_colors,
-                    name = R.string.image_colors,
-                    description = screenOrientation.value
+                    iconDesc = R.string.image_color,
+                    name = R.string.image_color,
+                    description = imageColor.value
                 ) {
-                    //Todo
-                }
-                SettingsClickableItem(
-                    icon = R.drawable.icon_image_order,
-                    iconDesc = R.string.image_order,
-                    name = R.string.image_order,
-                    description = screenOrientation.value
-                ) {
-                    //Todo
+                    dialogParams = DialogParams(
+                        title = "Color",
+                        listSettings = listOf("White", "Black", "Red", "Blue", "Grey", "Yellow"),
+                        Settings.Color
+                    )
+                    showDialog = true
                 }
             }
 
@@ -108,7 +104,7 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel = hiltViewModel()) {
                     icon = R.drawable.icon_about_app,
                     iconDesc = R.string.about_app,
                     name = R.string.about_app,
-                    description = screenOrientation.value
+                    description = imageOrientation.value
                 ) {
                     //Todo
                 }

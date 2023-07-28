@@ -14,8 +14,18 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(private val settingsPrefRepository: SettingsPrefRepository) :
     ViewModel() {
 
-    val screenStateOrientation: StateFlow<String> =
-        settingsPrefRepository.screenOrientationSettings.stateIn(
+    val imageStateOrientation: StateFlow<String> =
+        settingsPrefRepository.imageOrientationSettings.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000), ""
+        )
+    val imageStateColor: StateFlow<String> =
+        settingsPrefRepository.imageColorSettings.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000), ""
+        )
+    val imageStateSize: StateFlow<String> =
+        settingsPrefRepository.imageSizeSettings.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000), ""
         )
@@ -23,13 +33,16 @@ class SettingsViewModel @Inject constructor(private val settingsPrefRepository: 
     fun saveSettings(value: String, type: Settings) = viewModelScope.launch {
         when (type) {
             Settings.Orientation -> settingsPrefRepository.saveOrientationSettings(value = value)
+            Settings.Size -> settingsPrefRepository.saveSizeSettings(value = value)
+            Settings.Color -> settingsPrefRepository.saveColorSettings(value = value)
             Settings.Empty -> return@launch
         }
     }
-
 }
 
 sealed interface Settings {
     object Orientation : Settings
+    object Size : Settings
+    object Color : Settings
     object Empty : Settings
 }
