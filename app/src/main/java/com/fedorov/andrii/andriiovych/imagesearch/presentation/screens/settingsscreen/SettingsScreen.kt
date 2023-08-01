@@ -64,7 +64,7 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel = hiltViewModel()) {
                     ) {
                         dialogParams = DialogParams(
                             title = "Orientation",
-                            listSettings = listOf("Landscape", "Portrait", "Square"),
+                            listSettings = listOf("Landscape", "Portrait"),
                             Settings.Orientation
                         )
                         showDialog = true
@@ -86,17 +86,23 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel = hiltViewModel()) {
                         icon = R.drawable.icon_image_colors,
                         iconDesc = R.string.image_color,
                         name = R.string.image_color,
-                        description = imageColor.value
+                        description = imageColor.value.value
                     ) {
                         dialogParams = DialogParams(
                             title = "Color",
                             listSettings = listOf(
-                                "White",
-                                "Black",
                                 "Red",
+                                "Orange",
+                                "Yellow",
+                                "Green",
+                                "Turquoise",
                                 "Blue",
-                                "Grey",
-                                "Yellow"
+                                "Violet",
+                                "Pink",
+                                "Brown",
+                                "Black",
+                                "Gray",
+                                "White"
                             ),
                             Settings.Color
                         )

@@ -80,7 +80,7 @@ fun DetailedScreen(
                         error = painterResource(id = R.drawable.icon_error),
                         placeholder = painterResource(id = R.drawable.icon_search),
                         contentDescription = stringResource(R.string.image),
-                        contentScale = ContentScale.Crop
+                        contentScale = ContentScale.None
                     )
                 }
             }

@@ -39,7 +39,6 @@ fun ImageCard(
         .size(when(orientation.value){
             ImageOrientation.PORTRAIT-> 300.dp
             ImageOrientation.LANDSCAPE ->150.dp
-            ImageOrientation.SQUARE->200.dp
         })
         .clickable {
             onDetailedClicked(image)
@@ -58,7 +57,7 @@ fun ImageCard(
             error = painterResource(id = R.drawable.icon_error),
             placeholder = painterResource(id = R.drawable.icon_search),
             contentDescription = stringResource(id = R.string.image),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.None
         )
 
         IconButton(onClick = {

@@ -1,12 +1,13 @@
 package com.fedorov.andrii.andriiovych.imagesearch.domain.repositories
 
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageColor
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageOrientation
 import kotlinx.coroutines.flow.Flow
 
 interface SettingsPrefRepository {
 
   val imageOrientationSettings: Flow<ImageOrientation>
-  val imageColorSettings: Flow<String>
+  val imageColorSettings: Flow<ImageColor>
   val imageSizeSettings: Flow<String>
 
   suspend  fun saveOrientationSettings(value:String)

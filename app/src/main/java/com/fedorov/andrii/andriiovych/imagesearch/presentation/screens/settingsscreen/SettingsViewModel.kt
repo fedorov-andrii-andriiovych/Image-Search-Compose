@@ -19,10 +19,10 @@ class SettingsViewModel @Inject constructor(private val settingsPrefRepository: 
             viewModelScope,
             SharingStarted.WhileSubscribed(5000), ImageOrientation.PORTRAIT
         )
-    val imageStateColor: StateFlow<String> =
+    val imageStateColor: StateFlow<ImageColor> =
         settingsPrefRepository.imageColorSettings.stateIn(
             viewModelScope,
-            SharingStarted.WhileSubscribed(5000), ""
+            SharingStarted.WhileSubscribed(5000), ImageColor.EMPTY
         )
     val imageStateSize: StateFlow<String> =
         settingsPrefRepository.imageSizeSettings.stateIn(

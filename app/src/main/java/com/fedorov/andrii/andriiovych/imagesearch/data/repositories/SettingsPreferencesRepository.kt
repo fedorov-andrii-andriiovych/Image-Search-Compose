@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.SettingsPrefRepository
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageColor
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageOrientation
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -27,11 +28,26 @@ class SettingsPrefRepositoryImpl @Inject constructor(@ApplicationContext val con
     }.map { when(it){
         ImageOrientation.LANDSCAPE.value -> ImageOrientation.LANDSCAPE
         ImageOrientation.PORTRAIT.value -> ImageOrientation.PORTRAIT
-        ImageOrientation.SQUARE.value -> ImageOrientation.SQUARE
         else -> ImageOrientation.PORTRAIT
     } }
-    override val imageColorSettings: Flow<String> = context.dataStore.data.map { pref ->
+    override val imageColorSettings: Flow<ImageColor> = context.dataStore.data.map { pref ->
         pref[IMAGE_COLOR_PREF] ?: IMAGE_COLOR_DEFAULT
+    }.map {
+        when(it){
+            ImageColor.RED.value->ImageColor.RED
+            ImageColor.ORANGE.value->ImageColor.ORANGE
+            ImageColor.YELLOW.value->ImageColor.YELLOW
+            ImageColor.GREEN.value->ImageColor.GREEN
+            ImageColor.TURQUOISE.value->ImageColor.TURQUOISE
+            ImageColor.BLUE.value->ImageColor.BLUE
+            ImageColor.VIOLET.value->ImageColor.VIOLET
+            ImageColor.PINK.value->ImageColor.PINK
+            ImageColor.BROWN.value->ImageColor.BROWN
+            ImageColor.Black.value->ImageColor.Black
+            ImageColor.GRAY.value->ImageColor.GRAY
+            ImageColor.WHITE.value->ImageColor.WHITE
+            else -> ImageColor.EMPTY
+        }
     }
     override val imageSizeSettings: Flow<String> = context.dataStore.data.map { pref ->
         pref[IMAGE_SIZE_PREF] ?: IMAGE_SIZE_DEFAULT
