@@ -6,9 +6,11 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageOrientation
 
 @Composable
 fun ImageVerticalGrid(
@@ -16,7 +18,8 @@ fun ImageVerticalGrid(
     listImages: List<ImageModel>,
     onDetailedClicked: (Int) -> Unit,
     onStarClicked: (ImageModel) -> Unit,
-    initStar: Boolean
+    initStar: Boolean,
+    orientation:State<ImageOrientation>
 ) {
     val state = rememberLazyGridState()
     LazyVerticalGrid(
@@ -34,7 +37,8 @@ fun ImageVerticalGrid(
                 onStarClicked = { imageModel ->
                     onStarClicked(imageModel)
                 },
-                initStar = initStar
+                initStar = initStar,
+                orientation = orientation
             )
         }
     }

@@ -1,4 +1,4 @@
-package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.navigationparams
+package com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.navigationcomponents
 
 import android.os.Bundle
 import androidx.core.net.toUri

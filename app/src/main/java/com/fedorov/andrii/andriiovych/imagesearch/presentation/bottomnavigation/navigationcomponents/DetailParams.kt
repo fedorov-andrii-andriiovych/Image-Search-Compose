@@ -1,4 +1,4 @@
-package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.navigationparams
+package com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.navigationcomponents
 
 import android.os.Bundle
 import android.os.Parcelable
@@ -18,7 +18,7 @@ data class DetailParams(
 fun DetailParams.toBundle():Bundle{
     return Bundle().apply { putParcelable(PARAMS_KEY,this@toBundle) }
 }
-fun Bundle.toDetailParams():DetailParams{
+fun Bundle.toDetailParams(): DetailParams {
     return  this.getParcelable<DetailParams>(PARAMS_KEY)!!
 }
 

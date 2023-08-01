@@ -1,7 +1,6 @@
-package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.settingscomponents
+package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.settingscomponents
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,14 +18,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.Settings
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.Settings
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.DividerBackground
-import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsBackground
+import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SecondaryBackground
 
 @Composable
 fun SettingsListDialog(
     dialogParams: DialogParams,
-    onItemClicked: (String,Settings) -> Unit,
+    onItemClicked: (String, Settings) -> Unit,
     onDismissClicked: () -> Unit
 ) {
     AlertDialog(
@@ -75,7 +74,7 @@ fun SettingsListDialog(
                 }
             }
         },
-        backgroundColor = SettingsBackground
+        backgroundColor = SecondaryBackground
     )
 }
 

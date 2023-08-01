@@ -1,6 +1,7 @@
 package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -22,8 +23,8 @@ fun MainTopAppBar(title:String) {
                 textAlign = TextAlign.Center
             )
         },
-        backgroundColor = Color.Black,
+        backgroundColor = MaterialTheme.colors.background,
         elevation = 8.dp,
-        contentColor = Color.White
+        contentColor = MaterialTheme.colors.primary
     )
 }

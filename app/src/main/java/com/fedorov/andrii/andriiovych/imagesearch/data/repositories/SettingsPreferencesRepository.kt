@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.SettingsPrefRepository
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageOrientation
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -21,9 +22,14 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
 class SettingsPrefRepositoryImpl @Inject constructor(@ApplicationContext val context: Context) :
     SettingsPrefRepository {
 
-    override val imageOrientationSettings: Flow<String> = context.dataStore.data.map { pref ->
+    override val imageOrientationSettings: Flow<ImageOrientation> = context.dataStore.data.map { pref ->
         pref[IMAGE_ORIENTATION_PREF] ?: IMAGE_ORIENTATION_DEFAULT
-    }
+    }.map { when(it){
+        ImageOrientation.LANDSCAPE.value -> ImageOrientation.LANDSCAPE
+        ImageOrientation.PORTRAIT.value -> ImageOrientation.PORTRAIT
+        ImageOrientation.SQUARE.value -> ImageOrientation.SQUARE
+        else -> ImageOrientation.PORTRAIT
+    } }
     override val imageColorSettings: Flow<String> = context.dataStore.data.map { pref ->
         pref[IMAGE_COLOR_PREF] ?: IMAGE_COLOR_DEFAULT
     }

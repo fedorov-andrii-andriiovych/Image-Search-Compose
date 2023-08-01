@@ -1,12 +1,14 @@
-package com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels
+package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.mainscreen
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fedorov.andrii.andriiovych.imagesearch.data.repositories.SettingsPrefRepositoryImpl
 import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.DatabaseUseCase
 import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.ImageSearchUseCase
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.ScreenState.*
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.mainscreen.ScreenState.*
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageOrientation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -17,32 +19,40 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val imageSearchUseCase: ImageSearchUseCase,
-    private val databaseUseCase: DatabaseUseCase
+    private val databaseUseCase: DatabaseUseCase,
+    private val settingsPrefRepositoryImpl: SettingsPrefRepositoryImpl
 ) :
     ViewModel() {
+    val imageOrientationState = settingsPrefRepositoryImpl.imageOrientationSettings.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000), ImageOrientation.PORTRAIT
+    )
+    val editFieldState = mutableStateOf("")
 
-    val editFieldState = mutableStateOf(" ")
-
-    private val searchState = MutableStateFlow("nature")
+    private val searchState = MutableStateFlow(RANDOM_SEARCH_STATE)
 
     val screenState: StateFlow<ScreenState<ImageModel>> = searchState
         .flatMapLatest { searchString ->
             imageSearchUseCase
                 .searchImage(searchString)
                 .map<List<ImageModel>, ScreenState<ImageModel>>(::Success)
-//                .catch {
-//                    searchState.emit("")
-//                    emit(ScreenState.Error(it))
-//                }
+                .catch {
+                    searchState.emit("")
+                    emit(ScreenState.Error(it))
+                }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ScreenState.Loading)
 
-     fun searchImage() = viewModelScope.launch {
-        searchState.emit(editFieldState.value)
+    fun searchImage() = viewModelScope.launch {
+        searchState.emit(editFieldState.value.ifEmpty { RANDOM_SEARCH_STATE })
     }
 
     fun saveImageToDatabase(imageModel: ImageModel) = viewModelScope.launch {
         databaseUseCase.insert(imageModel = imageModel)
+    }
+
+    companion object {
+        private const val RANDOM_SEARCH_STATE = "random"
     }
 
 }

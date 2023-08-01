@@ -1,4 +1,4 @@
-package com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels
+package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.favoritescreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

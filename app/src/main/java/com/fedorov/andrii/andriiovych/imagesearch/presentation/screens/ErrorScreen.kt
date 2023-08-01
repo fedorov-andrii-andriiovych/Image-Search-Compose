@@ -9,6 +9,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -28,20 +30,26 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ErrorScreen(message: String, onClickRetry: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = message, textAlign = TextAlign.Center, color = Color.White, fontSize = 24.sp)
-        Spacer(modifier = Modifier.padding(top = 48.dp))
-        AnimationButton(
-            text = stringResource(R.string.retry),
-            onClickRetry = {
-                onClickRetry()
-            })
+    Surface(color = MaterialTheme.colors.background) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = message,
+                textAlign = TextAlign.Center,
+                color = Color.White,
+                fontSize = 24.sp
+            )
+            Spacer(modifier = Modifier.padding(top = 48.dp))
+            AnimationButton(
+                text = stringResource(R.string.retry),
+                onClickRetry = {
+                    onClickRetry()
+                })
+        }
     }
 }
 
@@ -92,4 +100,5 @@ fun AnimationButton(
             fontWeight = FontWeight.Medium
         )
     }
+
 }

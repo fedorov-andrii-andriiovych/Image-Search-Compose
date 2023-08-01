@@ -5,10 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,13 +19,15 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.fedorov.andrii.andriiovych.imagesearch.R
 import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageOrientation
 
 @Composable
 fun ImageCard(
     image: ImageModel,
     onDetailedClicked: (ImageModel) -> Unit,
     onStarClicked: (ImageModel) -> Unit,
-    initStar:Boolean
+    initStar:Boolean,
+    orientation: State<ImageOrientation>
 ) {
     val starState = remember {
         mutableStateOf(initStar)
@@ -37,7 +36,11 @@ fun ImageCard(
         starState.value = initStar
     }
     Box(modifier = Modifier
-        .size(150.dp)
+        .size(when(orientation.value){
+            ImageOrientation.PORTRAIT-> 300.dp
+            ImageOrientation.LANDSCAPE ->150.dp
+            ImageOrientation.SQUARE->200.dp
+        })
         .clickable {
             onDetailedClicked(image)
         }

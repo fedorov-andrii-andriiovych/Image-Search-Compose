@@ -1,4 +1,4 @@
-package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.settingscomponents
+package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.settingscomponents
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsBackground
+import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SecondaryBackground
 
 @Composable
 fun SettingsGroup(
@@ -20,7 +20,7 @@ fun SettingsGroup(
         Text(stringResource(id = name), color = Color.White)
         Spacer(modifier = Modifier.height(8.dp))
         Surface(
-            color = SettingsBackground,
+            color = SecondaryBackground,
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(4),
         ) {

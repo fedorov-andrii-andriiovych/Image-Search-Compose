@@ -1,9 +1,9 @@
-package com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels
+package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.detailedscreen
 
 import androidx.lifecycle.ViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.ImageSaveUseCase
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.navigationparams.DetailParams
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.navigationcomponents.DetailParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

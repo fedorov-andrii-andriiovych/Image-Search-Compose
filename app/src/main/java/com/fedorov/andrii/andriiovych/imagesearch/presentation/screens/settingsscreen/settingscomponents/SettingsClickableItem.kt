@@ -1,4 +1,4 @@
-package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.settingscomponents
+package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.settingscomponents
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fedorov.andrii.andriiovych.imagesearch.R
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.DividerBackground
-import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsBackground
+import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SecondaryBackground
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsSecondColor
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -31,7 +31,7 @@ fun SettingsClickableItem(
     onClick: () -> Unit
 ) {
     Surface(
-        color = SettingsBackground,
+        color = SecondaryBackground,
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),

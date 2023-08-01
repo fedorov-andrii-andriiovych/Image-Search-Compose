@@ -1,4 +1,4 @@
-package com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels
+package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,10 +14,10 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(private val settingsPrefRepository: SettingsPrefRepository) :
     ViewModel() {
 
-    val imageStateOrientation: StateFlow<String> =
+    val imageStateOrientation: StateFlow<ImageOrientation> =
         settingsPrefRepository.imageOrientationSettings.stateIn(
             viewModelScope,
-            SharingStarted.WhileSubscribed(5000), ""
+            SharingStarted.WhileSubscribed(5000), ImageOrientation.PORTRAIT
         )
     val imageStateColor: StateFlow<String> =
         settingsPrefRepository.imageColorSettings.stateIn(

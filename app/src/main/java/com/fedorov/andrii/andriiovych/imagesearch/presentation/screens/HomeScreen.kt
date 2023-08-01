@@ -5,19 +5,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.BottomNavigation
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.Screens
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.navigationparams.navigate
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.navigationparams.toBundle
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.navigationparams.toDetailParams
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.DetailedViewModel
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.FavoriteViewModel
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.navigationcomponents.navigate
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.navigationcomponents.toBundle
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.navigationcomponents.toDetailParams
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.favoritescreen.FavoriteScreen
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.mainscreen.MainScreen
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.SettingsScreen
 
 @Composable
 fun HomeScreen(onShareClicked: (String) -> Unit) {

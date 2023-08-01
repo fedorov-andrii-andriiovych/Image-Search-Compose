@@ -7,6 +7,7 @@ import com.fedorov.andrii.andriiovych.imagesearch.presentation.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 
@@ -23,6 +24,6 @@ class NetworkRepositoryImpl @Inject constructor(
             if (imageModels != null) {
                 emit(imageModels)
             }
-        }
+        }.flowOn(dispatcher)
     }
 }

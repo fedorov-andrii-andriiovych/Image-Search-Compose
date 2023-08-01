@@ -10,10 +10,10 @@ interface ImageService {
     @GET("search")
     suspend fun imageSearch(
         @Header("Authorization") apiKey: String = "7UIIyvKmovOd9HoWQ9hHI97FAC32HZxa3AdX3FFRQfxXtq8SNe3WBGeF",
-        @Query("query") name: String = "nature",
+        @Query("query") name: String = "",
         @Query("orientation") orientation: String = "vertical",
         @Query("size") size: String = "small",
-        @Query("color") color: String = "white",
+        @Query("color") color: String = "",
         @Query("locale") locale: String = "en-US",
         @Query("page") page: Int = 1,
         @Query("per_page")per_page: Int = 80

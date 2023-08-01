@@ -24,10 +24,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.fedorov.andrii.andriiovych.imagesearch.R
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.navigationparams.DetailParams
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.DetailedViewModel
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.viewmodels.MainViewModel
-import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SettingsBackground
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.navigationcomponents.DetailParams
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.detailedscreen.DetailedViewModel
+import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SecondaryBackground
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -60,31 +59,30 @@ fun DetailedScreen(
         )
 
     }) {
-        Box(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxSize()
-                .background(SettingsBackground),
-            contentAlignment = Alignment.TopCenter
-        ) {
-            HorizontalPager(
-                pageCount = listImage.value.size,
-                state = pageState,
-                // key = { index -> listImage.value[index].id },
-            ) { id ->
-                detailedViewModel.imageId = id
-                AsyncImage(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    model = ImageRequest.Builder(context = LocalContext.current)
-                        .data(listImage.value[id].url)
-                        .crossfade(true)
-                        .build(),
-                    error = painterResource(id = R.drawable.icon_error),
-                    placeholder = painterResource(id = R.drawable.icon_search),
-                    contentDescription = stringResource(R.string.image),
-                    contentScale = ContentScale.Crop
-                )
+        Surface(color = MaterialTheme.colors.background, modifier = Modifier.padding(it)) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.TopCenter
+            ) {
+                HorizontalPager(
+                    pageCount = listImage.value.size,
+                    state = pageState,
+                    // key = { index -> listImage.value[index].id },
+                ) { id ->
+                    detailedViewModel.imageId = id
+                    AsyncImage(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        model = ImageRequest.Builder(context = LocalContext.current)
+                            .data(listImage.value[id].url)
+                            .crossfade(true)
+                            .build(),
+                        error = painterResource(id = R.drawable.icon_error),
+                        placeholder = painterResource(id = R.drawable.icon_search),
+                        contentDescription = stringResource(R.string.image),
+                        contentScale = ContentScale.Crop
+                    )
+                }
             }
         }
     }
@@ -101,7 +99,8 @@ fun DetailedTopAppBar(
         title = {
             Text(
                 text = title.capitalize(),
-                fontSize = 24.sp, color = Color.White,
+                fontSize = 24.sp,
+                color = MaterialTheme.colors.primary,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
@@ -133,9 +132,9 @@ fun DetailedTopAppBar(
                 )
             }
         },
-        backgroundColor = Color.Black,
+        backgroundColor = MaterialTheme.colors.background,
         elevation = 8.dp,
-        contentColor = Color.White
+        contentColor = MaterialTheme.colors.primary
     )
 }
 
