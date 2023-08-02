@@ -8,8 +8,9 @@ import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.SettingsPrefRepository
 import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.DatabaseUseCase
 import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.ImageSearchUseCase
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.ScreenState
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.ScreenState.Success
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.common.ScreenState
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.common.ScreenState.Success
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.resources.ErrorTypeToErrorTextConverter
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageColor
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageOrientation
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +24,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val imageSearchUseCase: ImageSearchUseCase,
     private val databaseUseCase: DatabaseUseCase,
-    private val settingsPrefRepository: SettingsPrefRepository
+    private val settingsPrefRepository: SettingsPrefRepository,
+    private val errorConverter: ErrorTypeToErrorTextConverter
 ) :
     ViewModel() {
     val imageOrientationState = settingsPrefRepository.imageOrientationSettings.stateIn(
@@ -52,7 +54,7 @@ class MainViewModel @Inject constructor(
                         is Resource.Success<List<ImageModel>> -> Success(it.data)
                         is Resource.Error -> {
                             searchState.emit("")
-                            ScreenState.Error(Throwable(message = "Error"))
+                            ScreenState.Error(errorConverter.convert(it.error))
                         }
                     }
                 }

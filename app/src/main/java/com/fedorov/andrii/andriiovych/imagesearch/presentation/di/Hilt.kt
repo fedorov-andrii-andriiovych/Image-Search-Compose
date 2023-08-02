@@ -12,6 +12,8 @@ import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.DatabaseRe
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.ImageSaveRepository
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.NetworkRepository
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.SettingsPrefRepository
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.resources.ErrorTypeToErrorTextConverter
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.resources.ErrorTypeToErrorTextConverterImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -40,6 +42,9 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindSettingsPrefRepository(settingsPrefRepositoryImpl: SettingsPrefRepositoryImpl): SettingsPrefRepository
+
+    @Binds
+    abstract fun bindErrorTypeToErrorTextConverter(errorTypeToErrorTextConverterImpl: ErrorTypeToErrorTextConverterImpl): ErrorTypeToErrorTextConverter
 }
 
 @Module

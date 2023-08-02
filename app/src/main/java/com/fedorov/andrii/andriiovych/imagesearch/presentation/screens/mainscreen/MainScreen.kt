@@ -22,7 +22,7 @@ import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.navigationcomponents.DetailParams
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.ErrorScreen
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.LoadingScreen
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.ScreenState
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.common.ScreenState
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.ImageVerticalGrid
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -103,8 +103,7 @@ fun MainScreen(
             }
         }
         is ScreenState.Error -> {
-            val errorMessage =  (screenState.value as ScreenState.Error).throwable.message
-             ?: stringResource(R.string.something_went_wrong)
+            val errorMessage =  (screenState.value as ScreenState.Error).error.asString()
             ErrorScreen(message = errorMessage,
                 onClickRetry = {
                 mainViewModel.searchImage()
