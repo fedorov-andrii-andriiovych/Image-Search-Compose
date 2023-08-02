@@ -1,4 +1,4 @@
-package com.fedorov.andrii.andriiovych.imagesearch.data.database
+package com.fedorov.andrii.andriiovych.imagesearch.data.database.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

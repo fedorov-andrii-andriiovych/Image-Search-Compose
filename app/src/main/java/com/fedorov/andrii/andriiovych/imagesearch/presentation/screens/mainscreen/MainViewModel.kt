@@ -1,15 +1,15 @@
 package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.mainscreen
 
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fedorov.andrii.andriiovych.imagesearch.data.repositories.SettingsPrefRepositoryImpl
+import com.fedorov.andrii.andriiovych.imagesearch.data.common.Resource
 import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.SettingsPrefRepository
 import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.DatabaseUseCase
 import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.ImageSearchUseCase
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.mainscreen.ScreenState.*
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.ScreenState
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.ScreenState.Success
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageColor
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageOrientation
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -47,10 +47,14 @@ class MainViewModel @Inject constructor(
                     size = "",
                     imageOrientationState.value.value
                 )
-                .map<List<ImageModel>, ScreenState<ImageModel>>(::Success)
-                .catch {
-                    searchState.emit("")
-                    emit(ScreenState.Error(it))
+                .map {
+                    when (it) {
+                        is Resource.Success<List<ImageModel>> -> Success(it.data)
+                        is Resource.Error -> {
+                            searchState.emit("")
+                            ScreenState.Error(Throwable(message = "Error"))
+                        }
+                    }
                 }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ScreenState.Loading)
@@ -69,8 +73,3 @@ class MainViewModel @Inject constructor(
 
 }
 
-sealed interface ScreenState<out T> {
-    object Loading : ScreenState<Nothing>
-    data class Error(val throwable: Throwable) : ScreenState<Nothing>
-    data class Success<out R>(val value: List<R>) : ScreenState<R>
-}

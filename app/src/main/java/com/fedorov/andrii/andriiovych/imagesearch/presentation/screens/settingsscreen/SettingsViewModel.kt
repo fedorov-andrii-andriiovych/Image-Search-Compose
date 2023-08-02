@@ -30,19 +30,13 @@ class SettingsViewModel @Inject constructor(private val settingsPrefRepository: 
             SharingStarted.WhileSubscribed(5000), ""
         )
 
-    fun saveSettings(value: String, type: Settings) = viewModelScope.launch {
+    fun saveSettings(value: String, type: SettingsState) = viewModelScope.launch {
         when (type) {
-            Settings.Orientation -> settingsPrefRepository.saveOrientationSettings(value = value)
-            Settings.Size -> settingsPrefRepository.saveSizeSettings(value = value)
-            Settings.Color -> settingsPrefRepository.saveColorSettings(value = value)
-            Settings.Empty -> return@launch
+            SettingsState.Orientation -> settingsPrefRepository.saveOrientationSettings(value = value)
+            SettingsState.Size -> settingsPrefRepository.saveSizeSettings(value = value)
+            SettingsState.Color -> settingsPrefRepository.saveColorSettings(value = value)
+            SettingsState.Empty -> return@launch
         }
     }
 }
 
-sealed interface Settings {
-    object Orientation : Settings
-    object Size : Settings
-    object Color : Settings
-    object Empty : Settings
-}

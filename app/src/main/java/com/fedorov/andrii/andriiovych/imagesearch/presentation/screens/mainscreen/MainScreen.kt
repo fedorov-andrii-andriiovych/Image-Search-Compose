@@ -22,6 +22,7 @@ import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.navigationcomponents.DetailParams
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.ErrorScreen
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.LoadingScreen
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.ScreenState
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents.ImageVerticalGrid
 
 @OptIn(ExperimentalComposeUiApi::class)

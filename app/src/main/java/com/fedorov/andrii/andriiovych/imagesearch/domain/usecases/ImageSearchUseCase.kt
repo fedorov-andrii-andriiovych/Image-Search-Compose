@@ -1,5 +1,6 @@
 package com.fedorov.andrii.andriiovych.imagesearch.domain.usecases
 
+import com.fedorov.andrii.andriiovych.imagesearch.data.common.Resource
 import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.NetworkRepository
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +13,7 @@ class ImageSearchUseCase @Inject constructor(private val networkRepository: Netw
         color: String,
         size: String,
         orientation: String
-    ): Flow<List<ImageModel>> {
+    ):Flow<Resource<List<ImageModel>>> {
         return networkRepository.searchImage(
             name = name,
             color = color,

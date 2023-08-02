@@ -65,7 +65,7 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel = hiltViewModel()) {
                         dialogParams = DialogParams(
                             title = "Orientation",
                             listSettings = listOf("Landscape", "Portrait"),
-                            Settings.Orientation
+                            SettingsState.Orientation
                         )
                         showDialog = true
                     }
@@ -78,7 +78,7 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel = hiltViewModel()) {
                         dialogParams = DialogParams(
                             title = "Size",
                             listSettings = listOf("Small", "Medium", "Large"),
-                            Settings.Size
+                            SettingsState.Size
                         )
                         showDialog = true
                     }
@@ -104,7 +104,7 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel = hiltViewModel()) {
                                 "Gray",
                                 "White"
                             ),
-                            Settings.Color
+                            SettingsState.Color
                         )
                         showDialog = true
                     }

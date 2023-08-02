@@ -18,14 +18,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.Settings
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.SettingsState
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.DividerBackground
 import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SecondaryBackground
 
 @Composable
 fun SettingsListDialog(
     dialogParams: DialogParams,
-    onItemClicked: (String, Settings) -> Unit,
+    onItemClicked: (String, SettingsState) -> Unit,
     onDismissClicked: () -> Unit
 ) {
     AlertDialog(
