@@ -1,9 +1,8 @@
-package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens
+package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.detailedscreen
 
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -25,8 +24,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.fedorov.andrii.andriiovych.imagesearch.R
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.navigationcomponents.DetailParams
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.detailedscreen.DetailedViewModel
-import com.fedorov.andrii.andriiovych.imagesearch.ui.theme.SecondaryBackground
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -54,7 +51,7 @@ fun DetailedScreen(
             },
             title = detailedViewModel.searchTitle,
             onShareClicked = {
-                onShareClicked(listImage.value[detailedViewModel.imageId].url)
+                onShareClicked(listImage.value[detailedViewModel.imageId].landscapeUrl)
             }
         )
 
@@ -67,14 +64,13 @@ fun DetailedScreen(
                 HorizontalPager(
                     pageCount = listImage.value.size,
                     state = pageState,
-                    // key = { index -> listImage.value[index].id },
                 ) { id ->
                     detailedViewModel.imageId = id
                     AsyncImage(
                         modifier = Modifier
                             .fillMaxSize(),
                         model = ImageRequest.Builder(context = LocalContext.current)
-                            .data(listImage.value[id].url)
+                            .data(listImage.value[id].landscapeUrl)
                             .crossfade(true)
                             .build(),
                         error = painterResource(id = R.drawable.icon_error),

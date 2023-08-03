@@ -1,6 +1,6 @@
 package com.fedorov.andrii.andriiovych.imagesearch.data.network
 
-import com.fedorov.andrii.andriiovych.imagesearch.data.network.models.ImageModelResponse
+import com.fedorov.andrii.andriiovych.imagesearch.data.network.models.ImageResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -17,5 +17,5 @@ interface ImageService {
         @Query("locale") locale: String = "en-US",
         @Query("page") page: Int = 1,
         @Query("per_page")per_page: Int = 80
-    ): Response<ImageModelResponse>
+    ): Response<ImageResponse>
 }

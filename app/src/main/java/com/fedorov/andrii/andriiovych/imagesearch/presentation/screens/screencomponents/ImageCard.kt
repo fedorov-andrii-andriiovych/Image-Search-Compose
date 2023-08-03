@@ -51,7 +51,10 @@ fun ImageCard(
                 .fillMaxHeight()
                 .padding(4.dp),
             model = ImageRequest.Builder(context = LocalContext.current)
-                .data(image.url)
+                .data(when(orientation.value){
+                    ImageOrientation.PORTRAIT-> image.portraitUrl
+                    ImageOrientation.LANDSCAPE ->image.landscapeUrl
+                })
                 .crossfade(true)
                 .build(),
             error = painterResource(id = R.drawable.icon_error),

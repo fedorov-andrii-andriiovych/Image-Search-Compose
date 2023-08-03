@@ -13,12 +13,12 @@ interface ImageDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(imageEntity: ImageEntity)
 
-    @Query("SELECT COUNT(*) FROM ImageEntity WHERE url = :url")
+    @Query("SELECT COUNT(*) FROM ImageEntity WHERE landscapeUrl = :url")
     suspend fun getImageCountByUrl(url: String): Int
 
     @Transaction
     suspend fun insertWithCheck(imageEntity: ImageEntity) {
-        val count = getImageCountByUrl(imageEntity.url)
+        val count = getImageCountByUrl(imageEntity.landscapeUrl)
         if (count == 0) {
             insert(imageEntity)
         }

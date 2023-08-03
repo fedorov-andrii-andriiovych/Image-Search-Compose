@@ -13,6 +13,7 @@ import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.navigationcomponents.navigate
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.navigationcomponents.toBundle
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.navigationcomponents.toDetailParams
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.detailedscreen.DetailedScreen
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.favoritescreen.FavoriteScreen
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.mainscreen.MainScreen
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.SettingsScreen

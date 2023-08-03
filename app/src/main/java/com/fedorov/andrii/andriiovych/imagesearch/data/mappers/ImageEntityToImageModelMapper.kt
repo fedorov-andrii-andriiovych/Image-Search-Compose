@@ -7,8 +7,9 @@ import javax.inject.Inject
 class ImageEntityToImageModelMapper @Inject constructor() : Mapper<ImageEntity, ImageModel> {
     override fun mapFrom(from: ImageEntity): ImageModel {
         return ImageModel(
-            url = from.url,
-            id = from.id
+            landscapeUrl = from.landscapeUrl,
+            id = from.id,
+            portraitUrl = from.portraitUrl
         )
     }
 }

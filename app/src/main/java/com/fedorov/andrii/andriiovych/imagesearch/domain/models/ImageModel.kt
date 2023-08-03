@@ -4,5 +4,9 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class ImageModel (val url:String = "", val id:Int = 0):Parcelable
+data class ImageModel(
+    val id: Int = 0,
+    val landscapeUrl: String = "",
+    val portraitUrl: String = ""
+) : Parcelable
 

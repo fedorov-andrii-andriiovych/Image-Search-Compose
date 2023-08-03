@@ -2,7 +2,7 @@ package com.fedorov.andrii.andriiovych.imagesearch.data.network.models
 
 import com.google.gson.annotations.SerializedName
 
-data class ImageModelResponse(
+data class ImageResponse(
 
 	@field:SerializedName("next_page")
 	val nextPage: String,

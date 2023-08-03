@@ -18,7 +18,7 @@ class ImageSaveRepositoryImpl @Inject constructor(@ApplicationContext val contex
     override fun saveImageToGallery(imageModel: ImageModel): Boolean {
         val imageLoader = ImageLoader(context)
         val request = ImageRequest.Builder(context)
-            .data(imageModel.url)
+            .data(imageModel.landscapeUrl)
             .target { drawable ->
                 val bitmap = drawable.toBitmap()
                 saveBitmapToGallery(bitmap, context)

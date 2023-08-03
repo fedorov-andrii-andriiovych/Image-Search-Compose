@@ -4,11 +4,12 @@ import com.fedorov.andrii.andriiovych.imagesearch.data.database.models.ImageEnti
 import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 import javax.inject.Inject
 
-class ImageModelToImageEntityMapper @Inject constructor():Mapper<ImageModel, ImageEntity> {
+class ImageModelToImageEntityMapper @Inject constructor() : Mapper<ImageModel, ImageEntity> {
     override fun mapFrom(from: ImageModel): ImageEntity {
-       return ImageEntity(
-           id = from.id,
-           url = from.url
-       )
+        return ImageEntity(
+            id = from.id,
+            landscapeUrl = from.landscapeUrl,
+            portraitUrl = from.portraitUrl
+        )
     }
 }
