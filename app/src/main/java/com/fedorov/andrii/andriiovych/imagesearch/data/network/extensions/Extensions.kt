@@ -1,4 +1,4 @@
-package com.fedorov.andrii.andriiovych.imagesearch.data.network
+package com.fedorov.andrii.andriiovych.imagesearch.data.network.extensions
 
 import com.fedorov.andrii.andriiovych.imagesearch.data.common.ErrorCodes
 import com.fedorov.andrii.andriiovych.imagesearch.data.common.ErrorType

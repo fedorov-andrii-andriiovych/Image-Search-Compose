@@ -1,6 +1,7 @@
 package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.detailedscreen
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -8,6 +9,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +26,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.fedorov.andrii.andriiovych.imagesearch.R
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.navigationcomponents.DetailParams
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageOrientation
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -33,9 +36,12 @@ fun DetailedScreen(
     onShareClicked: (String) -> Unit,
     detailParams: DetailParams
 ) {
-    detailedViewModel.initParams(detailParams = detailParams)
+    LaunchedEffect(Unit){
+        detailedViewModel.initParams(detailParams = detailParams)
+    }
+    val orientation = detailedViewModel.imageOrientationState.collectAsState()
     val context = LocalContext.current
-    val pageState = rememberPagerState(initialPage = detailedViewModel.imageId)
+    val pageState = rememberPagerState(initialPage = detailParams.index)
     val listImage = detailedViewModel.listImageStateModel.collectAsState()
 
     Scaffold(topBar = {
@@ -70,13 +76,19 @@ fun DetailedScreen(
                         modifier = Modifier
                             .fillMaxSize(),
                         model = ImageRequest.Builder(context = LocalContext.current)
-                            .data(listImage.value[id].landscapeUrl)
+                            .data(when(orientation.value){
+                                ImageOrientation.PORTRAIT-> listImage.value[id].portraitUrl
+                                ImageOrientation.LANDSCAPE ->listImage.value[id].landscapeUrl
+                            })
                             .crossfade(true)
                             .build(),
                         error = painterResource(id = R.drawable.icon_error),
                         placeholder = painterResource(id = R.drawable.icon_search),
                         contentDescription = stringResource(R.string.image),
-                        contentScale = ContentScale.None
+                        contentScale = when(orientation.value){
+                            ImageOrientation.PORTRAIT-> ContentScale.Crop
+                            ImageOrientation.LANDSCAPE -> ContentScale.None
+                        }
                     )
                 }
             }

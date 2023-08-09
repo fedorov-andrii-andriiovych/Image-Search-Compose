@@ -1,15 +1,13 @@
 package com.fedorov.andrii.andriiovych.imagesearch.data.repositories
 
-import com.fedorov.andrii.andriiovych.imagesearch.data.common.ErrorType
 import com.fedorov.andrii.andriiovych.imagesearch.data.common.Resource
 import com.fedorov.andrii.andriiovych.imagesearch.data.common.extensions.toErrorType
 import com.fedorov.andrii.andriiovych.imagesearch.data.mappers.ImageResponseToImageModelMapper
 import com.fedorov.andrii.andriiovych.imagesearch.data.network.ImageService
-import com.fedorov.andrii.andriiovych.imagesearch.data.network.toErrorType
+import com.fedorov.andrii.andriiovych.imagesearch.data.network.extensions.toErrorType
 import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.NetworkRepository
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.di.IoDispatcher
-import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageOrientation
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -39,7 +37,7 @@ class NetworkRepositoryImpl @Inject constructor(
                 )
                 if (response.isSuccessful) {
                     val result = response.body()?.let {
-                        val data =  mapper.mapFrom(from = it)
+                        val data =     mapper.mapFrom(from = it)
                         emit(Resource.Success(data))
                     }
                 } else {

@@ -30,6 +30,7 @@ class SettingsPrefRepositoryImpl @Inject constructor(@ApplicationContext val con
         ImageOrientation.PORTRAIT.value -> ImageOrientation.PORTRAIT
         else -> ImageOrientation.PORTRAIT
     } }
+
     override val imageColorSettings: Flow<ImageColor> = context.dataStore.data.map { pref ->
         pref[IMAGE_COLOR_PREF] ?: IMAGE_COLOR_DEFAULT
     }.map {
@@ -49,6 +50,7 @@ class SettingsPrefRepositoryImpl @Inject constructor(@ApplicationContext val con
             else -> ImageColor.EMPTY
         }
     }
+
     override val imageSizeSettings: Flow<String> = context.dataStore.data.map { pref ->
         pref[IMAGE_SIZE_PREF] ?: IMAGE_SIZE_DEFAULT
     }

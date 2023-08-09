@@ -1,5 +1,6 @@
 package com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.screencomponents
 
+import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
