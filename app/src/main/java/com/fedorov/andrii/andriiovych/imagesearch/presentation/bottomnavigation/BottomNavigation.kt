@@ -10,6 +10,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.fedorov.andrii.andriiovych.imagesearch.R
 
@@ -26,12 +28,18 @@ fun BottomNavigation(
         backgroundColor = Color.Black
     ) {
         val backStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = backStackEntry?.destination?.route
+        val currentRoute = backStackEntry?.destination
         listItems.forEach { item ->
             BottomNavigationItem(
-                selected = currentRoute == item.route,
+                selected = currentRoute?.hierarchy?.any { it.route == item.route } == true,
                 onClick = {
-                    navController.navigate(item.route)
+                    navController.navigate(item.route){
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 },
                 icon = {
                     Icon(
