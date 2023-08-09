@@ -64,7 +64,7 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel = hiltViewModel()) {
                     ) {
                         dialogParams = DialogParams(
                             title = "Orientation",
-                            listSettings = listOf("Landscape", "Portrait"),
+                            listSettings = ImageOrientation.values().map { it.value },
                             SettingsState.Orientation
                         )
                         showDialog = true
@@ -90,20 +90,7 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel = hiltViewModel()) {
                     ) {
                         dialogParams = DialogParams(
                             title = "Color",
-                            listSettings = listOf(
-                                "Red",
-                                "Orange",
-                                "Yellow",
-                                "Green",
-                                "Turquoise",
-                                "Blue",
-                                "Violet",
-                                "Pink",
-                                "Brown",
-                                "Black",
-                                "Gray",
-                                "White"
-                            ),
+                            listSettings = ImageColor.values().map { it.value },
                             SettingsState.Color
                         )
                         showDialog = true
