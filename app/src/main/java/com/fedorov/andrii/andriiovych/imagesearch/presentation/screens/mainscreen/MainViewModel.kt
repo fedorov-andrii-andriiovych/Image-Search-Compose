@@ -11,6 +11,7 @@ import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.ImageSearchUse
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.common.ScreenState
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.common.ScreenState.Success
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.resources.ErrorTypeToErrorTextConverter
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.BaseViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageColor
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageOrientation
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,16 +27,8 @@ class MainViewModel @Inject constructor(
     private val databaseUseCase: DatabaseUseCase,
     private val settingsPrefRepository: SettingsPrefRepository,
     private val errorConverter: ErrorTypeToErrorTextConverter
-) :
-    ViewModel() {
-    val imageOrientationState = settingsPrefRepository.imageOrientationSettings.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(5000), ImageOrientation.PORTRAIT
-    )
-    private val imageColorState = settingsPrefRepository.imageColorSettings.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(5000), ImageColor.EMPTY
-    )
+) : BaseViewModel(settingsPrefRepository) {
+
     val editFieldState = mutableStateOf("")
 
     private val searchState = MutableStateFlow(RANDOM_SEARCH_STATE)
@@ -44,11 +37,7 @@ class MainViewModel @Inject constructor(
         .flatMapLatest { searchString ->
             imageSearchUseCase
                 .searchImage(
-                    name = searchString,
-                    color = imageColorState.value.value,
-                    size = "",
-                    imageOrientationState.value.value
-                )
+                    name = searchString)
                 .map {
                     when (it) {
                         is Resource.Success<List<ImageModel>> -> Success(it.data)

@@ -10,9 +10,9 @@ class ImageSearchUseCase @Inject constructor(private val networkRepository: Netw
 
     fun searchImage(
         name: String,
-        color: String,
-        size: String,
-        orientation: String
+        color: String = "",
+        size: String = "",
+        orientation: String = ""
     ):Flow<Resource<List<ImageModel>>> {
         return networkRepository.searchImage(
             name = name,

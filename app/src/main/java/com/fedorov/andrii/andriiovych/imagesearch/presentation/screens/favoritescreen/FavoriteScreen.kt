@@ -29,9 +29,7 @@ fun FavoriteScreen(
     favoriteViewModel: FavoriteViewModel = hiltViewModel(),
     onDetailedClicked: (DetailParams) -> Unit
 ) {
-    val imageOrientationState = remember {
-        mutableStateOf(ImageOrientation.PORTRAIT)
-    }
+    val imageOrientationState = favoriteViewModel.imageOrientationState.collectAsState()
     val context = LocalContext.current
     val listImage = favoriteViewModel.stateFavoriteList.collectAsState(initial = emptyList())
 

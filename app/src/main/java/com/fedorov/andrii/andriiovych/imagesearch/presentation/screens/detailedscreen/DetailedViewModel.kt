@@ -6,6 +6,7 @@ import com.fedorov.andrii.andriiovych.imagesearch.domain.models.ImageModel
 import com.fedorov.andrii.andriiovych.imagesearch.domain.repositories.SettingsPrefRepository
 import com.fedorov.andrii.andriiovych.imagesearch.domain.usecases.ImageSaveUseCase
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.bottomnavigation.navigationcomponents.DetailParams
+import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.BaseViewModel
 import com.fedorov.andrii.andriiovych.imagesearch.presentation.screens.settingsscreen.ImageOrientation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,11 +19,8 @@ import javax.inject.Inject
 class DetailedViewModel @Inject constructor(
     private val imageSaveUseCase: ImageSaveUseCase,
     private val settingsPrefRepository: SettingsPrefRepository
-) : ViewModel() {
-    val imageOrientationState = settingsPrefRepository.imageOrientationSettings.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(5000), ImageOrientation.PORTRAIT
-    )
+) : BaseViewModel(settingsPrefRepository) {
+
     var searchTitle = ""
         private set
     var imageId: Int = 0
